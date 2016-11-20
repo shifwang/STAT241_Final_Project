@@ -46,5 +46,12 @@ mix_time = mixing.mixing_time(all_trajectory = all_traject, station_func = stati
 conv_time_all = convergence.convergence_time_all(all_trajectory = all_traject,
                                                  modes = modes, epsilon_neighbor=1e-2)
 
+# raise warnings when not converge;
+# we thus need to increase 'maxIter'
+import warnings
+if any(conv_time_all < 0):
+    warnings.warn(str(sum(conv_time_all < 0)) + ' out of ' + str(len(conv_time_all)) + ' did not converge! The covergence time is smaller than actual!')
+conv_time_all = np.delete(conv_time_all, np.where(conv_time_all < 0))
+
 np.median(conv_time_all)
 mix_time
