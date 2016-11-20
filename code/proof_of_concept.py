@@ -82,7 +82,7 @@ def ProofOfConcept():
     x = np.arange(-2, 2, 1e-3)
     plt.plot(x, np.exp(func(x)))
 
-ProofOfConcept()
+# ProofOfConcept()
 
 
 
@@ -109,10 +109,10 @@ def ProofOfConcept2():
     x = np.arange(-3, 3, 1e-3)
     plt.plot(x, np.exp(func(x)))
 
-ProofOfConcept2()
+# ProofOfConcept2()
 
-x = np.arange(-.6, .6, 1e-3)
-plt.plot(x, np.exp(-100*x**4))
+# x = np.arange(-.6, .6, 1e-3)
+# plt.plot(x, np.exp(-100*x**4))
 
 
 # ========================================================================================
@@ -137,8 +137,8 @@ def GD_UnitTest(order = 1):
     # values are trajectory
     plt.hist(trajectory[haltIter/2:haltIter], 100)
 
-GD_UnitTest(order = 1)
-plt.interactive(True)
+# GD_UnitTest(order = 1)
+# plt.interactive(True)
 
-yp = trajectory[haltIter/2:haltIter]
-len(yp)
+# yp = trajectory[haltIter/2:haltIter]
+# len(yp)
