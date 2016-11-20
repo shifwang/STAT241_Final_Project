@@ -43,8 +43,14 @@ def is_mix(emp_samples, station_func, epsilon_norm = 1e-2, a=-3, b=3, dx=.01):
     else:
         return False
 # ====================================================================================
-
-def mixing_time(all_trajectory, station_func, epsilon_norm = 1e-2):
-    pass
-
+def mixing_time(all_trajectory, station_func, epsilon_norm = 1e-1, a=-3, b=3, dx=.01):
+    N_total = all_trajectory.shape[0]
+    is_mix_all = np.empty(shape = N_total, dtype = 'bool')
+    for it in range(0,N_total):
+        is_mix_all[it] = is_mix(all_trajectory[it,:], station_func = station_func, epsilon_norm=epsilon_norm, a=a, b=b, dx=dx)
+    mix_index = np.where(is_mix_all)[0]
+    if len(mix_index) == 0:
+        return -1
+    else:
+        return mix_index[0]
 
