@@ -20,8 +20,6 @@ def simu_all(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-
 
 
 # $ ipcluster start -n 3
-
-
 def simu_all_parallel(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1, maxIter = int(1e5), desiredObj = 100):
     clients = ipyparallel.Client()
     dview = clients.direct_view()
@@ -50,11 +48,7 @@ def simu_all_parallel(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noise
 
     n_core = len(clients.ids)
     n_sim_each = int(np.floor(n_sim/n_core))
-    # def helper(n_sim):
-        # return simu_all(n_sim=n_sim, func=func, grad=grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1, maxIter=int(1e5), desiredObj=100, verbose=False)
 
-    # results = dview.map_sync(simu_all, [n_sim_each]*4)
-    # results = dview.map_sync(helper, [n_sim_each]*4, [func]*4, [grad]*4)
     results = dview.map_sync(simu_all, [n_sim_each]*n_core, [func]*n_core, [grad]*n_core)
 
     all_traject = np.empty(shape = maxIter)
