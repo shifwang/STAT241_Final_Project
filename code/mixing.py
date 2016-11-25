@@ -4,9 +4,17 @@ import random
 import scipy as sp
 import statsmodels as sm
 
+
+
 def graph(formula, x_range = range(-3, 3)):
-    '''
-    graph any function within a range
+    '''graph any function within a range
+
+    Parameters
+    ----------
+    formula : TYPE
+        The formula
+    x_range : TYPE, optional
+        The x range
     '''
     # x = np.array(x_range)
     x = np.linspace(start = x_range[0], stop = x_range[len(x_range)-1], num=50, endpoint=True)
@@ -33,7 +41,31 @@ def cdf_l1(cdf1, cdf2, a=-3, b=3, dx=.01):
 # graph(ecdf, range(-3, 3))
 # graph(station_cdf, range(-3, 3))
 
-def is_mix(emp_samples, station_func, epsilon_norm = 1e-2, a=-3, b=3, dx=.01):
+def is_mix(emp_samples, station_func, epsilon_norm = 1e-2, a= -3, b=3, dx=.01):
+    """determine from a sample, whether it is mixing with the true distribution
+
+    Determines if mix.
+
+    Parameters
+    ----------
+    emp_samples : vec
+        The emp samples
+    station_func : func
+        The stationart distribution
+    epsilon_norm : float, optional
+        The epsilon tolerance for norm
+    a : int, optional
+        Description
+    b : int, optional
+        Description
+    dx : float, optional
+        Description
+
+    Returns
+    -------
+    bool
+        True if mix, False otherwise.
+    """
     ecdf = sm.distributions.empirical_distribution.ECDF(emp_samples)
     station_cdf = pdf_to_cdf(pdf_func = station_func, a=a, b=b, dx=dx)
 
@@ -44,6 +76,28 @@ def is_mix(emp_samples, station_func, epsilon_norm = 1e-2, a=-3, b=3, dx=.01):
         return False
 # ====================================================================================
 def mixing_time(all_trajectory, station_func, epsilon_norm = 1e-1, a=-3, b=3, dx=.01):
+    """calculate mixing time
+
+    Parameters
+    ----------
+    all_trajectory : TYPE
+        Description
+    station_func : TYPE
+        Description
+    epsilon_norm : float, optional
+        Description
+    a : TYPE, optional
+        Description
+    b : int, optional
+        Description
+    dx : float, optional
+        Description
+
+    Returns
+    -------
+    TYPE
+        Description
+    """
     N_total = all_trajectory.shape[0]
     is_mix_all = np.empty(shape = N_total, dtype = 'bool')
     for it in range(0,N_total):
