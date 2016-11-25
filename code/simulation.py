@@ -20,6 +20,7 @@ def simu_all(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-
 
 
 # $ ipcluster start -n 3
+# $ ipcluster start -n 24
 def simu_all_parallel(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1, maxIter = int(1e5), desiredObj = 100):
     clients = ipyparallel.Client()
     dview = clients.direct_view()
