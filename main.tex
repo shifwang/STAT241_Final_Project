@@ -46,10 +46,13 @@
 %% or use the epsfig package if you prefer to use the old commands
 %% \usepackage{epsfig}
 
-%% The amssymb package provides various useful mathematical symbols
+
 \usepackage{amssymb}
-%% The amsthm package provides extended theorem environments
-%% \usepackage{amsthm}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
@@ -76,7 +79,13 @@
 %% \biboptions{comma,round}
 
 % \biboptions{}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\D}{\mathscr{D}}
+\newcommand{\N}{\mathscr{N}}
+\newcommand{\by}{\mathbf{y}}
 
+\newtheorem{conjecture}{Conjecture}
 
 \journal{STAT 241A}
 
@@ -84,7 +93,7 @@
 
 \begin{frontmatter}
 
-\title{Mixing time of stochastic gradient descent}
+\title{A Novel Sampling Method Using Stochastic Gradient Descent}
 
 
 \author{Yu Wang, 3031741324\\ Weixin Cai, 26954913}
@@ -102,7 +111,7 @@ Our group contains two people. The tentative plan is that Yu focuses on the theo
 
 \begin{keyword}
 %% keywords here, in the form: keyword \sep keyword
-example \sep \LaTeX \sep template
+Stochastic gradient descent \sep Sampling \sep Metropolis-Hastings
 %% MSC codes here, in the form: \MSC code \sep code
 %% or \MSC[2008] code \sep code (2000 is the default)
 \end{keyword}
@@ -115,6 +124,119 @@ example \sep \LaTeX \sep template
 % \linenumbers
 
 %% main text
+\section{Main Theorems}
+
+\begin{algorithm}
+{\small
+Given objective function $h(x)$, stepsize $\alpha$, noise level $\sigma^2$, 
+\begin{algorithmic}\caption{Stochastic gradient descent}\label{Alg:SGD}
+\STATE {\bf Initialize} $ \bx^0$ arbitrarily;
+\WHILE{stopping criterion not satisfied}
+\STATE draw $\epsilon^t$ from Gaussian distribution $\N(0, \sigma^2)$.
+\STATE
+$\bx^{k+1} \gets \bx^k - \alpha(\nabla f(\bx^k) + \epsilon^t)$;
+\STATE $k\gets k+1$;
+\ENDWHILE
+\STATE return $\bx^k$.
+\end{algorithmic}}
+\end{algorithm}
+
+Define $\D(\R^p)$ to be the family of the density functions of smooth random variables in $\R^p$, i.e.,
+
+\begin{equation}
+\D(\R^p)\triangleq \{p(\bx)\Big| p\in C^1(\R^p),~p(\bx) \geq 0,~ \int_\bx p(\bx) = 1.\}
+\end{equation}
+Consider any $p(\bx)\in \D(\R^p)$, we have the following theorem:
+
+\begin{conjecture}
+For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, \epsilon)$. 
+\end{conjecture}
+\begin{proof}
+Let's verify this theorem by checking the detailed balance condition. Denote $g(\by|\bx)$ to be the density function of the transition, because $\by = \bx - \alpha \nabla f(\bx^k) + \epsilon^t$ and $\epsilon^t\sim \N(0, \sigma^2)$, we know
+\begin{equation}
+g(\by|\bx) = (2\pi \sigma^2)^{-p/2} \exp(- \frac{\|\by - \bx + \alpha \nabla h(\bx)\|^2}{2\sigma^2}).
+\end{equation}
+Then the detailed balance condition is 
+\begin{equation}\label{Eq:detailBalance}
+p(\bx^{k+1}) g(\bx^{k}|\bx^{k+1}) = p(\bx^{k}) g(\bx^{k+1}|\bx^{k}).
+\end{equation}
+Since we will only consider $\bx^k$ and $\bx^{k+1}$ in the proof. For notation ease, we denote $\bx^{k+1}$ as $\bx^+$. 
+In order to prove \ref{Eq:detailBalance}, we would like to show the ratio between LHS and RHS to be 1. To be more specific, we have (Recall that $\sigma^2 = \alpha$)
+\begin{eqnarray}
+\frac{p(\bx^{+}) g(\bx^{k}|\bx^{+})}{p(\bx^{k}) g(\bx^{+}|\bx^{k})} = & \exp(-h(\bx^{+}) - \frac{\|\bx^{k} - \bx^+ + \alpha \nabla h(\bx^{+})\|^2}{2\alpha} + h(\bx^{k}) + \frac{\|\bx^{+} - \bx^k + \alpha \nabla h(\bx^k)\|^2}{2\alpha}).
+\end{eqnarray}
+Note that 
+\[h(\bx^+) - h(\bx^k) = \frac{\nabla h(\bx^k) + \nabla h(\bx^+)}{2} \cdot (\bx^+ - \bx^k) + O(\|\bx^+ - \bx^k\|^2),
+\]
+and 
+\begin{eqnarray}
+ & \frac{\|\bx^{k} - \bx^+ + \alpha \nabla h(\bx^{+})\|^2}{2\alpha} - \frac{\|\bx^{+} - \bx^k + \alpha \nabla h(\bx^k)\|^2}{2\alpha} \\
+ =& -\frac{\nabla h(\bx^k) + \nabla h(\bx^+)}{2} \cdot (\bx^+ - \bx^k) + \alpha/2 \|\nabla h(\bx^+)\|^2 - \alpha/2 \|\nabla h(\bx^+)\|^2.
+\end{eqnarray}
+Here, $\|\bx^+ - \bx^k\|$ will be roughly no bigger than $\alpha$ because $\bx^+ = \bx^k - \alpha \nabla h(\bx^k) + \epsilon^k$.  Thus it means $O(\|\bx^+ - \bx^k\|) = O(\alpha^2)$. What's more, $\alpha/2 \|\nabla h(\bx^+)\|^2 - \alpha/2 \|\nabla h(\bx^+)\|^2 = O(\alpha^2)$. 
+Thus we know 
+\begin{eqnarray}
+\log \frac{p(\bx^{+}) g(\bx^{k}|\bx^{+})}{p(\bx^{k}) g(\bx^{+}|\bx^{k})} = &O(\alpha^2).
+\end{eqnarray}
+Therefore, we know the detailed balance equality holds approximately especially when $\alpha$ is small.
+
+When $h$ is a quadratic function, this equation holds exactly. 
+\end{proof}
+
+Since this is only a very rough deduction, we would like to examine the stationary distribution of SGD empirically for some special cases. 
+
+Some figures...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \section{Sample section}
 \label{sec1}
 
