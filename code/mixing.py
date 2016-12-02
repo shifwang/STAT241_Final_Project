@@ -4,8 +4,6 @@ import random
 import scipy as sp
 import statsmodels as sm
 
-
-
 def graph(formula, x_range = range(-3, 3)):
     '''graph any function within a range
 
