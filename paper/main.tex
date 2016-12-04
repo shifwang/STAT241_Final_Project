@@ -132,12 +132,21 @@ Stochastic gradient descent \sep Sampling \sep Metropolis-Hastings
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
+The posterior sampling method is used to great advantage by a board range of statistical methodologies, such as EM algorithm \citep{Dempster_Maximum_1977}. From the Bayesian point of view, E-step of the EM algorithm can be seen as calculating the posterior distribution of the parameters of interest \citep{Tanner_The_1987}. Another crucial arena of posterior sampling is Bayesian modeling. For example, \cite{Geman_Stochastic_1993} studied image restoration as a maximum a posteriori (MAP) problem on lattice graph. They proposed a Markov Random Field - Gibbs class of method for solving the posterior inference.
+
+Typically, to implement such algorithms, one must be able to sample from the posterior distribution $p(\theta|y,z)$. In general, however, the posterior does not have closed form and sampling could be difficult and sometimes intractable. Various alternatives have been proposed such as Monte-Carlo method to approximate the posterior in EM algorithm \citep{Wei_A_1990}. \cite{Tanner_The_1987} considered data augmentation approach for calculating posterior. Analysis of posterior is studied in \cite{Rubin_The_1981} as a Bayesian Bootstrap approach.
+
+
+
 SGD is widely used.
 SGD has been viewed as Markov chain.
 No previous work has analyzed SGD as sampling technique.
 
 
-(sampling meth formulation)
+To formalize the goal, the observed data $y$ follows a probability distribution indexed by $\theta$ : $p(y | \theta)$. We want to generate i.i.d. samples from $p(\theta | y)$.
+
+
+
 
 Our approach to the problem (xxx) is related to classical stochastic gradient descent algorithms [RM51, PJ92], where one assumes access to samples xx from the distribution Π and performs gradient updates using xxx. This reduces to the randomized incremental subgradient method of Nedi and Bertsekas�� [xxxxxx] when xxx is concentrated on a set of n points, giving an objective of the form xxxxx.
 

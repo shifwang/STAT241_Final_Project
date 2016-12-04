@@ -105,10 +105,10 @@
 % \centerline{ \bf{ Aim of study}}
 
 \begin{enumerate}
-\item Mollis dignissim, magna augue tincidunt dolor, interdum vestibulum urna
-\item Sed aliquet luctus lectus, eget aliquet leo ullamcorper consequat. Vivamus eros sem, iaculis ut euismod non, sollicitudin vel orci.
-\item Nascetur ridiculus mus.
-\item Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
+\item Stochastic gradient descent (SGD) as a class of efficient Markov chain sampler
+\item Proved stationary distribution
+\item Fast sampler for any Bayesian posteriors
+\item Derived upper bound on the mixing time based on convergence results
 \end{enumerate}
 
 \end{alertblock}
@@ -158,15 +158,15 @@ $\theta^{t+1} \gets \theta^t + \alpha^ta^t$;
 
 \begin{figure}
     \centering
-    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e3.png}
-    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e4.png}
-    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e5.png}\\
-    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e3.png}
-    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e4.png}
-    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e5.png}\\
-    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e3.png}
-    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e4.png}
-    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e5.png}
+    \includegraphics[width=.3\onecolwid]{../figure/case1_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\onecolwid]{../figure/case1_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\onecolwid]{../figure/case1_step_0.005_iter_1e5.png}\\
+    \includegraphics[width=.3\onecolwid]{../figure/case2_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\onecolwid]{../figure/case2_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\onecolwid]{../figure/case2_step_0.005_iter_1e5.png}\\
+    \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e5.png}
     \caption{Experiment 1: the empirical histogram using SGD. Each column corresponds to a different number of samples ($1e3$, $1e4$, and $1e5$), each row corresponds to a different distrubtion ($f_1(x) = \exp(-x^4)$, $f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$}
     \label{Fig:exp1}
 \end{figure}
