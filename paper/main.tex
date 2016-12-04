@@ -139,7 +139,7 @@ No previous work has analyzed SGD as sampling technique.
 
 (sampling meth formulation)
 
-Our approach to the problem (xxx) is related to classical stochastic gradient descent algorithms [RM51, PJ92], where one assumes access to samples xx from the distribution Π and performs gradient updates using xxx. This reduces to the randomized incremental subgradient method of Nedi and Bertsekas􏰇 [xxxxxx] when xxx is concentrated on a set of n points, giving an objective of the form xxxxx.
+Our approach to the problem (xxx) is related to classical stochastic gradient descent algorithms [RM51, PJ92], where one assumes access to samples xx from the distribution Π and performs gradient updates using xxx. This reduces to the randomized incremental subgradient method of Nedi and Bertsekas�� [xxxxxx] when xxx is concentrated on a set of n points, giving an objective of the form xxxxx.
 
 More generally, our problem belongs to the family of xxxxx with xxxxxx, where the goal is to xxxxxx. Classical analysis of SGD focus on xxxxx in nature and generally do not provide xxxxxx result. Our method borrows from yyyyyyy methodology [zzzzzzz], but we generalize them in that we do not assume yyyyyy.
 
@@ -157,7 +157,7 @@ The remainder of the paper is organized as follows. The next section contains a 
 \begin{algorithm}
 {\small
 Given objective function $h(x)$, stepsize $\alpha$, noise level $\sigma^2$,
-\begin{algorithmic}\caption{Stochastic gradient descent}\label{Alg:SGD}
+\begin{algorithmic}\caption{Stochastic gradient descent (oracle)}\label{Alg:SGD}
 \STATE {\bf Initialize} $ \bx^0$ arbitrarily;
 \WHILE{stopping criterion not satisfied}
 \STATE draw $\epsilon^t$ from Gaussian distribution $\N(0, \sigma^2)$.
@@ -257,6 +257,22 @@ Let $K = \alpha^{-1} \var \log P(X_1|\theta^t)$,
 \sum_{i=1}^K (K^{-1}\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) - (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) \sim \N(0, \alpha).
 \]
 \end{theorem}
+\begin{algorithm}
+{\small
+Given data $X_1,\ldots, X_n$, model $p(X|\theta)$, sample size $K$
+\begin{algorithmic}\caption{SGD based sampling}\label{Alg:SGD_Sampling}
+\STATE {\bf Initialize} $ \theta^0$, $t \gets 0$;
+\WHILE{stopping criterion not satisfied}
+\STATE draw $K$ iid samples with replacement from $1,\ldots, n$, denoted $\eta_1,\ldots, \eta_K$.
+\STATE calculate the mean $a^t$ and the variance $v^t$ of $(\nabla\log p(X_{\eta_i}|\theta^t))_{i=1}^K$.
+\STATE set the stepsize $\alpha^t \gets K^{-1} v^t$
+\STATE
+$\theta^{t+1} \gets \theta^t + \alpha^ta^t$;
+\STATE $t\gets t+1$;
+\ENDWHILE
+\STATE return $\theta^k$.
+\end{algorithmic}}
+\end{algorithm}
 
 A toy example showing SGD works.
 % ===================================================================================
