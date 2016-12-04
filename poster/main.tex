@@ -119,9 +119,23 @@
 
 \begin{block}{SGD Sampling Algorithm}
 
-Lorem ipsum dolor \textbf{sit amet}, consectetur adipiscing elit. Sed commodo molestie porta. Sed ultrices scelerisque sapien ac commodo. Donec ut volutpat elit. Sed laoreet accumsan mattis. Integer sapien tellus, auctor ac blandit eget, sollicitudin vitae lorem. Praesent dictum tempor pulvinar. Suspendisse potenti. Sed tincidunt varius ipsum, et porta nulla suscipit et. Etiam congue bibendum felis, ac dictum augue cursus a. \textbf{Donec} magna eros, iaculis sit amet placerat quis, laoreet id est. In ut orci purus, interdum ornare nibh. Pellentesque pulvinar, nibh ac malesuada accumsan, urna nunc convallis tortor, ac vehicula nulla tellus eget nulla. Nullam lectus tortor, \textit{consequat tempor hendrerit} quis, vestibulum in diam. Maecenas sed diam augue.
+\begin{algorithm}[H]
+{\small
+Given data $X_1,\ldots, X_n$, model $p(X|\theta)$, sample size $K$
+\begin{algorithmic}\caption{SGD based sampling}\label{Alg:SGD_Sampling}
+\STATE {\bf Initialize} $ \theta^0$, $t \gets 0$;
+\WHILE{stopping criterion not satisfied}
+\STATE draw $K$ iid samples with replacement from $1,\ldots, n$, denoted $\eta_1,\ldots, \eta_K$.
+\STATE calculate the mean $a^t$ and the variance $v^t$ of $(\nabla\log p(X_{\eta_i}|\theta^t))_{i=1}^K$.
+\STATE set the stepsize $\alpha^t \gets K^{-1} v^t$
+\STATE
+$\theta^{t+1} \gets \theta^t + \alpha^ta^t$;
+\STATE $t\gets t+1$;
+\ENDWHILE
+\STATE return $\theta^k$.
+\end{algorithmic}}
+\end{algorithm}
 
-This statement requires citation \cite{Smith:2012qr}.
 
 \end{block}
 
@@ -143,10 +157,19 @@ This statement requires citation \cite{Smith:2012qr}.
 %------------------------------------------------
 
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
-\caption{Figure caption}
+    \centering
+    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e5.png}\\
+    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e5.png}\\
+    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e5.png}
+    \caption{Experiment 1: the empirical histogram using SGD. Each column corresponds to a different number of samples ($1e3$, $1e4$, and $1e5$), each row corresponds to a different distrubtion ($f_1(x) = \exp(-x^4)$, $f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$}
+    \label{Fig:exp1}
 \end{figure}
-
 
 %----------------------------------------------------------------------------------------
 %	MATERIALS
