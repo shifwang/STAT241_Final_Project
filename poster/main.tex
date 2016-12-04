@@ -59,14 +59,20 @@
 %-----------------------------------------------------------
 
 \usepackage{graphicx}  % Required for including images
-
 \usepackage{booktabs} % Top and bottom rules for tables
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{grffile}
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
 
-\title{A Novel Sampling Method Using Stochastic Gradient Descent} % Poster title
+\title{Novel Sampling Using Stochastic Gradient Descent} % Poster title
 
 \author{Yu Wang and Weixin Cai} % Author(s)
 
@@ -94,15 +100,16 @@
 %	OBJECTIVES
 %----------------------------------------------------------------------------------------
 
-\begin{alertblock}{Objectives}
+\begin{alertblock}{Main results}
 
-Lorem ipsum dolor sit amet, consectetur, nunc tellus pulvinar tortor, commodo eleifend risus arcu sed odio:
-\begin{itemize}
+% \centerline{ \bf{ Aim of study}}
+
+\begin{enumerate}
 \item Mollis dignissim, magna augue tincidunt dolor, interdum vestibulum urna
 \item Sed aliquet luctus lectus, eget aliquet leo ullamcorper consequat. Vivamus eros sem, iaculis ut euismod non, sollicitudin vel orci.
 \item Nascetur ridiculus mus.
 \item Euismod non erat. Nam ultricies pellentesque nunc, ultrices volutpat nisl ultrices a.
-\end{itemize}
+\end{enumerate}
 
 \end{alertblock}
 
@@ -110,7 +117,7 @@ Lorem ipsum dolor sit amet, consectetur, nunc tellus pulvinar tortor, commodo el
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Introduction}
+\begin{block}{SGD Sampling Algorithm}
 
 Lorem ipsum dolor \textbf{sit amet}, consectetur adipiscing elit. Sed commodo molestie porta. Sed ultrices scelerisque sapien ac commodo. Donec ut volutpat elit. Sed laoreet accumsan mattis. Integer sapien tellus, auctor ac blandit eget, sollicitudin vitae lorem. Praesent dictum tempor pulvinar. Suspendisse potenti. Sed tincidunt varius ipsum, et porta nulla suscipit et. Etiam congue bibendum felis, ac dictum augue cursus a. \textbf{Donec} magna eros, iaculis sit amet placerat quis, laoreet id est. In ut orci purus, interdum ornare nibh. Pellentesque pulvinar, nibh ac malesuada accumsan, urna nunc convallis tortor, ac vehicula nulla tellus eget nulla. Nullam lectus tortor, \textit{consequat tempor hendrerit} quis, vestibulum in diam. Maecenas sed diam augue.
 
@@ -133,11 +140,19 @@ This statement requires citation \cite{Smith:2012qr}.
 
 \begin{column}{\onecolwid} % Begin a column which is two columns wide (column 2)
 
+%------------------------------------------------
+
+\begin{figure}
+\includegraphics[width=0.8\linewidth]{placeholder.jpg}
+\caption{Figure caption}
+\end{figure}
+
+
 %----------------------------------------------------------------------------------------
 %	MATERIALS
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Materials}
+\begin{block}{Stationary Distribution}
 
 The following materials were required to complete the research:
 
@@ -159,6 +174,22 @@ The materials were prepared according to the steps outlined below:
 
 \end{block}
 
+
+%----------------------------------------------------------------------------------------
+%   ADDITIONAL INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{block}{SGD As Posterior Sampler}
+
+Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius dictum.
+\begin{itemize}
+\item Curabitur pellentesque dignissim
+\item Eu facilisis est tempus quis
+\item Duis porta consequat lorem
+\end{itemize}
+
+\end{block}
+
 %----------------------------------------------------------------------------------------
 
 \end{column} % End of the second column
@@ -167,21 +198,20 @@ The materials were prepared according to the steps outlined below:
 
 \begin{column}{\onecolwid} % The third column
 
+
+%------------------------------------------------
+
+\begin{figure}
+\includegraphics[width=0.8\linewidth]{placeholder.jpg}
+\caption{Figure caption}
+\end{figure}
+
+
 %----------------------------------------------------------------------------------------
-%	CONCLUSION
+%   ADDITIONAL INFORMATION
 %----------------------------------------------------------------------------------------
 
-\begin{block}{Conclusion}
-
-Nunc tempus venenatis facilisis. \textbf{Curabitur suscipit} consequat eros non porttitor. Sed a massa dolor, id ornare enim. Fusce quis massa dictum tortor \textbf{tincidunt mattis}. Donec quam est, lobortis quis pretium at, laoreet scelerisque lacus. Nam quis odio enim, in molestie libero. Vivamus cursus mi at \textit{nulla elementum sollicitudin}.
-
-\end{block}
-
-%----------------------------------------------------------------------------------------
-%	ADDITIONAL INFORMATION
-%----------------------------------------------------------------------------------------
-
-\begin{block}{Additional Information}
+\begin{block}{Upper Bound On Mixing Time}
 
 Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius dictum.
 \begin{itemize}
@@ -189,6 +219,16 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 \item Eu facilisis est tempus quis
 \item Duis porta consequat lorem
 \end{itemize}
+
+\end{block}
+
+%----------------------------------------------------------------------------------------
+%	CONCLUSION
+%----------------------------------------------------------------------------------------
+
+\begin{block}{Conclusion}
+
+Nunc tempus venenatis facilisis. \textbf{Curabitur suscipit} consequat eros non porttitor. Sed a massa dolor, id ornare enim. Fusce quis massa dictum tortor \textbf{tincidunt mattis}. Donec quam est, lobortis quis pretium at, laoreet scelerisque lacus. Nam quis odio enim, in molestie libero. Vivamus cursus mi at \textit{nulla elementum sollicitudin}.
 
 \end{block}
 
@@ -224,19 +264,12 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 \begin{block}{Contant Information}
 
 \begin{itemize}
-\item Web: \href{http://www.university.edu/smithlab}{http://www.university.edu/smithlab}
-\item Email: \href{mailto:john@smith.com}{john@smith.com}
-\item Phone: +1 (000) 111 1111
+\item Email: \href{mailto:wang.yu@berkeley.edu}{wang.yu@berkeley.edu}
+\item Email: \href{mailto:wcai@berkeley.edu}{wcai@berkeley.edu}
 \end{itemize}
 
 
 \end{block}
-
-\begin{center}
-\begin{tabular}{ccc}
-\includegraphics[width=0.4\linewidth]{logo.png} & \hfill & \includegraphics[width=0.4\linewidth]{logo.png}
-\end{tabular}
-\end{center}
 
 %----------------------------------------------------------------------------------------
 
