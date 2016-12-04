@@ -131,9 +131,24 @@ Stochastic gradient descent \sep Sampling \sep Metropolis-Hastings
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
+SGD is widely used.
+SGD has been viewed as Markov chain.
+No previous work has analyzed SGD as sampling technique.
+
+
+(sampling meth formulation)
+
+Our approach to the problem (xxx) is related to classical stochastic gradient descent algorithms [RM51, PJ92], where one assumes access to samples xx from the distribution Π and performs gradient updates using xxx. This reduces to the randomized incremental subgradient method of Nedi and Bertsekas􏰇 [xxxxxx] when xxx is concentrated on a set of n points, giving an objective of the form xxxxx.
+
+More generally, our problem belongs to the family of xxxxx with xxxxxx, where the goal is to xxxxxx. Classical analysis of SGD focus on xxxxx in nature and generally do not provide xxxxxx result. Our method borrows from yyyyyyy methodology [zzzzzzz], but we generalize them in that we do not assume yyyyyy.
+
+The main result of this paper is that performing stochastic gradient steps with specifically chosen step size, xxxxx results in a provably accurate and efficient sampling procedure. The convergence to the stationary distribution is governed by problem-dependent terms (namely the xxxx of the functions F, and xxxx) familiar from previous results on Markov chain [yyyyyy] as well as terms dependent on the rate at which xxxxxxx. Our xxx main theorems characterize the convergence of SGD in terms of xxxx parameter, which is xxxxx (in a sense we make precise later). In particular, we show that the stationary distribution is xxxxx with high probability.
+
+The remainder of the paper is organized as follows. The next section contains a description of the algorithm we analyze and our main technical results. Following that, we show that the classic stochastic gradient descent can be viewed as a special case of our algorithm in Section 3. We expand on these results and provide an upper bound of the mixing time throughout Section 4, and give numerical examples to compare our result with other sampling methods like xxxxxx. We conclude with discussion in Section 5.
+
+
+
 % section introduction (end)
-
-
 % ===================================================================================
 %% main text
 \section{Main Theorems}
@@ -208,7 +223,7 @@ Take the density function of $X$ to be $f(x) \propto \exp(- x^4)$, let $2\sigma^
     \caption{Experiment 1: the empirical distribution using SGD}
     \label{Fig:exp1}
 \end{figure}
-
+% ===================================================================================
 \section{Sampling from posterior distribution}
 Consider an statistical model fitting problem. Given data $X_1,\ldots, X_n$, we are fitting a model $P(X_i|\theta)$. The maximum likelihood estimate will be $\hat{\theta} \in \argmin - \sum_{i=1}^n \log P(X_i|\theta)$. This can be solved by gradient descent on objective function $- \sum_{i=1}^n \log P(X_i|\theta)$. Now let's consider a Bayesian approach to estimate $\theta$ by maximizing its posterior probability given the data. The posterior distribution of $\theta$ is
 $P(\theta|(X_1,\ldots, X_n)) = \frac{\prod_{i=1}^n P(X_i|\theta) P(\theta)}{P(X_1,\ldots, X_n)} \propto \prod_{i=1}^n P(X_i|\theta) P(\theta)$. Then we could use SGD to draw sample from it. Note that we could approximate the noisy gradient step by subsampling. By central limit theorem, we know it still holds.
@@ -219,8 +234,11 @@ $P(\theta|(X_1,\ldots, X_n)) = \frac{\prod_{i=1}^n P(X_i|\theta) P(\theta)}{P(X_
 
 Suppose we would like to draw sample from a posterior distribution
 Some figures...
+% ===================================================================================
+\section{Upper bound on the mixing time} % (fold)
+\label{sec:upper_bound_on_the_mixing_time}
 
-
+% section upper_bound_on_the_mixing_time (end)
 % ===================================================================================
 \section{Numerical experiments} % (fold)
 \label{sec:numerical_experiments}
@@ -233,8 +251,9 @@ Some figures...
 \section{Discussion} % (fold)
 \label{sec:discussion}
 
+- what we have achieved
 
-
+- Future work
 
 % section discussion (end)
 \newpage
