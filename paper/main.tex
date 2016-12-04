@@ -86,6 +86,7 @@
 \newcommand{\D}{\mathscr{D}}
 \newcommand{\N}{\mathscr{N}}
 \newcommand{\by}{\mathbf{y}}
+\newcommand{\var}{\mathrm{var}}
 \DeclareMathOperator*{\argmin}{\arg\!\min}
 
 \newtheorem{conjecture}{Conjecture}
@@ -161,7 +162,7 @@ Given objective function $h(x)$, stepsize $\alpha$, noise level $\sigma^2$,
 \WHILE{stopping criterion not satisfied}
 \STATE draw $\epsilon^t$ from Gaussian distribution $\N(0, \sigma^2)$.
 \STATE
-$\bx^{k+1} \gets \bx^k - \alpha(\nabla f(\bx^k) + \epsilon^t)$;
+$\bx^{k+1} \gets \bx^k - \alpha\nabla f(\bx^k) + \epsilon^t$;
 \STATE $k\gets k+1$;
 \ENDWHILE
 \STATE return $\bx^k$.
@@ -241,14 +242,23 @@ This can be solved by gradient descent on objective function $- \sum_{i=1}^n \lo
 \[
 P(\theta|(X_1,\ldots, X_n)) = \frac{\prod_{i=1}^n P(X_i|\theta) P(\theta)}{P(X_1,\ldots, X_n)} \propto \prod_{i=1}^n P(X_i|\theta) P(\theta).
 \]
-Then we could use SGD to draw sample from it. Note that we could approximate the noisy gradient step by subsampling. By central limit theorem, we know it still holds.
-
+By Conjecture 1, we could use SGD to draw samples using $(-\sum_i \log P(X_i|\theta) + \log P(\theta), \epsilon, 2\epsilon)$.  Note that the core update rule is
+\[
+\theta^{t+1} \gets \theta^{t} + \alpha (n^{-1} \sum_i \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) + \epsilon^t.
+\]
+Note that $\alpha (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) + \epsilon^t$ can be approximated by 
+\[
+\sum_{i=1}^K (K^{-1} \nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)),
+\]
+where $K$ is a constant smaller than $n$ and $\eta_i$ are IID drawn from $1,\ldots, n$. When $K\ll n$, this is much computational efficient. This relationship is elaborated in the following theorem:
 \begin{theorem}[Central limit theorem]
-
+Let $K = \alpha^{-1} \var \log P(X_1|\theta^t)$, 
+\[
+\sum_{i=1}^K (K^{-1}\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) - (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) \sim \N(0, \alpha).
+\]
 \end{theorem}
 
-Suppose we would like to draw sample from a posterior distribution
-Some figures...
+A toy example showing SGD works.
 % ===================================================================================
 \section{Upper bound on the mixing time} % (fold)
 \label{sec:upper_bound_on_the_mixing_time}
