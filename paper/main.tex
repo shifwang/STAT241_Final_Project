@@ -229,7 +229,7 @@ Take the density function of $X$ to be $f(x) \propto \exp(- x^4)$, let $2\sigma^
     \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e3.png}
     \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e4.png}
     \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e5.png}
-    \caption{Experiment 1: the empirical histogram using SGD. Each column corresponds to a different number of samples ($1e3$, $1e4$, and $1e5$), each row corresponds to a different distrubtion ($f_1(x) = \exp(-x^4)$, $f_3(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$}
+    \caption{Experiment 1: the empirical histogram using SGD. Each column corresponds to a different number of samples ($1e3$, $1e4$, and $1e5$), each row corresponds to a different distrubtion ($f_1(x) = \exp(-x^4)$, $f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$}
     \label{Fig:exp1}
 \end{figure}
 % ===================================================================================
@@ -246,13 +246,13 @@ By Conjecture 1, we could use SGD to draw samples using $(-\sum_i \log P(X_i|\th
 \[
 \theta^{t+1} \gets \theta^{t} + \alpha (n^{-1} \sum_i \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) + \epsilon^t.
 \]
-Note that $\alpha (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) + \epsilon^t$ can be approximated by 
+Note that $\alpha (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) + \epsilon^t$ can be approximated by
 \[
 \sum_{i=1}^K (K^{-1} \nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)),
 \]
 where $K$ is a constant smaller than $n$ and $\eta_i$ are IID drawn from $1,\ldots, n$. When $K\ll n$, this is much computational efficient. This relationship is elaborated in the following theorem:
 \begin{theorem}[Central limit theorem]
-Let $K = \alpha^{-1} \var \log P(X_1|\theta^t)$, 
+Let $K = \alpha^{-1} \var \log P(X_1|\theta^t)$,
 \[
 \sum_{i=1}^K (K^{-1}\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) - (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) \sim \N(0, \alpha).
 \]
@@ -268,9 +268,11 @@ A toy example showing SGD works.
 \section{Numerical experiments} % (fold)
 \label{sec:numerical_experiments}
 
-$$\exp \left\{ { -x^4 } \right\}$$
+$f_1(x) = \exp(-x^4)$
 
-$$\exp \left\{ { - \left| x \right|} \right\}$$
+$f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$
+
+$f_3(x) = \exp(-|x|)$
 
 
 % section numerical_experiments (end)
