@@ -86,6 +86,8 @@
 \newcommand{\by}{\mathbf{y}}
 
 \newtheorem{conjecture}{Conjecture}
+\newtheorem{theorem}{Theorem}
+\newtheorem{experiment}{Experiment}
 
 \journal{STAT 241A}
 
@@ -149,7 +151,7 @@ Define $\D(\R^p)$ to be the family of the density functions of smooth random var
 Consider any $p(\bx)\in \D(\R^p)$, we have the following theorem:
 
 \begin{conjecture}
-For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, \epsilon)$. 
+For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, 2\epsilon)$. 
 \end{conjecture}
 \begin{proof}
 Let's verify this theorem by checking the detailed balance condition. Denote $g(\by|\bx)$ to be the density function of the transition, because $\by = \bx - \alpha \nabla f(\bx^k) + \epsilon^t$ and $\epsilon^t\sim \N(0, \sigma^2)$, we know
@@ -180,11 +182,32 @@ Thus we know
 \end{eqnarray}
 Therefore, we know the detailed balance equality holds approximately especially when $\alpha$ is small.
 
-When $h$ is a quadratic function, this equation holds exactly. 
+When $h$ is a quadratic function, the detailed balance holds exactly. 
 \end{proof}
+
+Some empirical demonstration. How accurate is this approximation?
 
 Since this is only a very rough deduction, we would like to examine the stationary distribution of SGD empirically for some special cases. 
 
+\begin{experiment}
+Take the density function of $X$ to be $f(x) \propto \exp(- x^4)$, let $2\sigma^2 = \epsilon = 0.005$, $x_0 = 1$, burning-in period is $1000$, waiting period is $1000$, the empirical histogram v.s. the desired histogram is plotted in Figure ???
+\end{experiment}
+\begin{figure}
+    \centering
+    \includegraphics{figure/case1_step_0.005_iter_1e3.png}
+    \caption{Experiment 1: the empirical distribution using SGD}
+    \label{Fig:exp1}
+\end{figure}
+
+\section{Sampling from posterior distribution}
+Consider an statistical model fitting problem. Given data $X_1,\ldots, X_n$, we are fitting a model $P(X_i|\theta)$. The maximum likelihood estimate will be $\hat{\theta} \in \argmin - \sum_{i=1}^n \log P(X_i|\theta)$. This can be solved by gradient descent on objective function $- \sum_{i=1}^n \log P(X_i|\theta)$. Now let's consider a Bayesian approach to estimate $\theta$ by maximizing its posterior probability given the data. The posterior distribution of $\theta$ is 
+$P(\theta|(X_1,\ldots, X_n)) = \frac{\prod_{i=1}^n P(X_i|\theta) P(\theta)}{P(X_1,\ldots, X_n)} \propto \prod_{i=1}^n P(X_i|\theta) P(\theta)$. Then we could use SGD to draw sample from it. Note that we could approximate the noisy gradient step by subsampling. By central limit theorem, we know it still holds.
+
+\begin{theorem}[Central limit theorem]
+
+\end{theorem}
+
+Suppose we would like to draw sample from a posterior distribution 
 Some figures...
 
 
