@@ -204,14 +204,29 @@ Take the density function of $X$ to be $f(x) \propto \exp(- x^4)$, let $2\sigma^
 \end{experiment}
 \begin{figure}
     \centering
-    \includegraphics{../figure/case1_step_0.005_iter_1e3.png}
-    \caption{Experiment 1: the empirical distribution using SGD}
+    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\textwidth]{../figure/case1_step_0.005_iter_1e5.png}
+    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\textwidth]{../figure/case2_step_0.005_iter_1e5.png}
+    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e3.png}
+    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e4.png}
+    \includegraphics[width=.3\textwidth]{../figure/case3_step_0.005_iter_1e5.png}
+    \caption{Experiment 1: the empirical histogram using SGD. Each column corresponds to a different number of samples ($1e3$, $1e4$, and $1e5$), each row corresponds to a different distrubtion ($f_1(x) = \exp(-x^4)$, $f_3(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$}
     \label{Fig:exp1}
 \end{figure}
 
 \section{Sampling from posterior distribution}
-Consider an statistical model fitting problem. Given data $X_1,\ldots, X_n$, we are fitting a model $P(X_i|\theta)$. The maximum likelihood estimate will be $\hat{\theta} \in \argmin - \sum_{i=1}^n \log P(X_i|\theta)$. This can be solved by gradient descent on objective function $- \sum_{i=1}^n \log P(X_i|\theta)$. Now let's consider a Bayesian approach to estimate $\theta$ by maximizing its posterior probability given the data. The posterior distribution of $\theta$ is
-$P(\theta|(X_1,\ldots, X_n)) = \frac{\prod_{i=1}^n P(X_i|\theta) P(\theta)}{P(X_1,\ldots, X_n)} \propto \prod_{i=1}^n P(X_i|\theta) P(\theta)$. Then we could use SGD to draw sample from it. Note that we could approximate the noisy gradient step by subsampling. By central limit theorem, we know it still holds.
+Consider a statistical model fitting problem. Given $n$ samples $X_1,\ldots, X_n$ and an assumed model $P(X_1|\theta)$. The maximum likelihood estimate will be 
+\[
+\hat{\theta} \in \argmin - \sum_{i=1}^n \log P(X_i|\theta).
+\]
+This can be solved by gradient descent on objective function $- \sum_{i=1}^n \log P(X_i|\theta)$. Now let's consider a Bayesian approach to estimate $\theta$ by maximizing its posterior probability given the data. The posterior distribution of $\theta$ is
+\[
+P(\theta|(X_1,\ldots, X_n)) = \frac{\prod_{i=1}^n P(X_i|\theta) P(\theta)}{P(X_1,\ldots, X_n)} \propto \prod_{i=1}^n P(X_i|\theta) P(\theta).
+\]
+Then we could use SGD to draw sample from it. Note that we could approximate the noisy gradient step by subsampling. By central limit theorem, we know it still holds.
 
 \begin{theorem}[Central limit theorem]
 
