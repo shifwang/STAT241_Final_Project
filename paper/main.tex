@@ -53,6 +53,8 @@
 \usepackage{mathrsfs}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{grffile}
 
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
@@ -84,6 +86,7 @@
 \newcommand{\D}{\mathscr{D}}
 \newcommand{\N}{\mathscr{N}}
 \newcommand{\by}{\mathbf{y}}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
 
 \newtheorem{conjecture}{Conjecture}
 \newtheorem{theorem}{Theorem}
@@ -201,7 +204,7 @@ Take the density function of $X$ to be $f(x) \propto \exp(- x^4)$, let $2\sigma^
 \end{experiment}
 \begin{figure}
     \centering
-    \includegraphics{figure/case1_step_0.005_iter_1e3.png}
+    \includegraphics{../figure/case1_step_0.005_iter_1e3.png}
     \caption{Experiment 1: the empirical distribution using SGD}
     \label{Fig:exp1}
 \end{figure}
@@ -234,6 +237,7 @@ Some figures...
 
 
 % section discussion (end)
+\newpage
 % ===================================================================================
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
