@@ -78,6 +78,7 @@
 \newcommand{\N}{\mathscr{N}}
 \newcommand{\by}{\mathbf{y}}
 \newcommand{\var}{\mathrm{var}}
+\newcommand{\cov}{\mathrm{cov}}
 \DeclareMathOperator*{\argmin}{\arg\!\min}
 
 \newtheorem{conjecture}{Conjecture}
@@ -164,7 +165,7 @@
 %----------------------------------------------------------------------------------------
 
 \begin{block}{SGD Sampling Algorithm}
-Suppose we would like to sample from a distribution $p(x) \propto f(x)$. 
+Suppose we would like to sample from a distribution $p(\bx)\in \D(\R^p) \propto f(\bx)$. 
 \begin{algorithm}[H]
 {\small
 Given $f(x)$, 
@@ -223,12 +224,13 @@ $\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
 %----------------------------------------------------------------------------------------
 %	MATERIALS
 %----------------------------------------------------------------------------------------
-
 \begin{block}{Stationary Distribution}
-\begin{conjecture}
-For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, 2\epsilon)$.
-\end{conjecture}
-
+Will Algorithm 1 converge to the desired stationary distribution? Denote $p(\bx^{t+1}|\bx^t)$ to be the density function to obtain $\bx^{t+1}$ from $\bx^{t}$. 
+The detailed balance condition holds approximately when $\|(\Sigma^t)^{-1}\|$ is small, i.e.,
+\[
+f(\bx^{t})p(\bx^{t+1}|\bx^t) = f(\bx^{t+1})p(\bx^{t}|\bx^{t+1}) ( 1 + O(\|(\Sigma^t)^{-1}\|^2)).
+\]
+That implies $f(\cdot)$ is indeed the stationary distribution of Algorithm 1. Simulation results can be found in Figure 1.
 \end{block}
 
 
@@ -237,15 +239,19 @@ For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in A
 %----------------------------------------------------------------------------------------
 
 \begin{block}{SGD As Posterior Sampler}
-
-\begin{theorem}[Central limit theorem]
-Let $K = \alpha^{-1} \var \log P(X_1|\theta^t)$,
+When $p(\theta)$ is the posterior distribution of some parameters given a set of data $X_1,\ldots, X_n$, i.e.,
 \[
-\sum_{i=1}^K (K^{-1}\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) - (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) \sim \N(0, \alpha).
+p(\theta) = \prod_{i=1}^n P(X_i|\theta) P(\theta),
+\]
+The noisy gradient step in Algorithm 1 can be estimated by subsampling:
+\begin{theorem}[Central limit theorem]
+Let $K$ be the subsampling size and $\eta_1,\ldots, \eta_K$ be samples drawing from $1,\ldots, n$ with replacement, then
+\[
+K^{-1}\sum_{i=1}^K (\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) \sim \N(n^{-1} \nabla \log p(\theta) , K^{-1}\cov \nabla \log p(\theta)).
 \]
 \end{theorem}
 
-A toy example showing SGD works.
+See Figure 2 for the simulation result.
 
 \end{block}
 
@@ -272,13 +278,7 @@ A toy example showing SGD works.
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Upper Bound On Mixing Time}
-
-Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius dictum.
-\begin{itemize}
-\item Curabitur pellentesque dignissim
-\item Eu facilisis est tempus quis
-\item Duis porta consequat lorem
-\end{itemize}
+Mixing time correspon
 
 \end{block}
 
