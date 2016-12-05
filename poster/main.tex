@@ -134,7 +134,7 @@
 
 \begin{enumerate}
 \item Stochastic gradient descent (SGD) as a class of efficient Markov chain sampler
-\item Proved stationary distribution
+\item Derived the stationary distribution
 \item Fast sampler for any Bayesian posteriors
 \item Derived upper bound on the mixing time based on convergence results
 \end{enumerate}
@@ -162,18 +162,18 @@
 %----------------------------------------------------------------------------------------
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
-
+Suppose we would like to sample from a distribution $p(x) \propto f(x)$. 
 \begin{block}{SGD Sampling Algorithm}
 
 \begin{algorithm}[H]
 {\small
-Given objective function $h(x)$, stepsize $\alpha$, noise level $\sigma^2$,
+Given $f(x)$, 
 \begin{algorithmic}\caption{Stochastic gradient descent (oracle)}\label{Alg:SGD}
 \STATE {\bf Initialize} $ \bx^0$ arbitrarily;
-\WHILE{stopping criterion not satisfied}
-\STATE draw $\epsilon^t$ from Gaussian distribution $\N(0, \sigma^2)$.
+\WHILE{burn-in period}
+\STATE draw $a^t$ from Gaussian distribution $\N(\nabla f(\bx^k), \Sigma^{t})$.
 \STATE
-$\bx^{k+1} \gets \bx^k - \alpha\nabla f(\bx^k) + \epsilon^t$;
+$\bx^{k+1} \gets \bx^k - (\Sigma^t)^{-1} a^t$;
 \STATE $k\gets k+1$;
 \ENDWHILE
 \STATE return $\bx^k$.
