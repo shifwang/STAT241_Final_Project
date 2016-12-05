@@ -133,9 +133,9 @@ Stochastic gradient descent \sep Sampling \sep Metropolis-Hastings
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-The posterior sampling method is used to great advantage by a board range of statistical methodologies, such as EM algorithm \citep{Dempster_Maximum_1977}. From the Bayesian point of view, E-step of the EM algorithm can be seen as calculating the posterior distribution of the parameters of interest \citep{Tanner_The_1987}. Another crucial arena of posterior sampling is Bayesian modeling. For example, \cite{Geman_Stochastic_1993} studied image restoration as a maximum a posteriori (MAP) problem on lattice graph. They proposed a Markov Random Field - Gibbs class of method for solving the posterior inference.
+The posterior sampling method is used to great advantage by a board range of statistical methodologies, such as EM algorithm \citep{dempster1977maximum}. From the Bayesian point of view, E-step of the EM algorithm can be seen as calculating the posterior distribution of the parameters of interest \citep{Tanner_The_1987}. Another crucial arena of posterior sampling is Bayesian modeling. For example, \cite{Geman_Stochastic_1993} studied image restoration as a maximum a posteriori (MAP) problem on lattice graph. They proposed a Markov Random Field - Gibbs class of method for solving the posterior inference.
 
-Typically, to implement such algorithms, one must be able to sample from the posterior distribution $p(\theta|y,z)$. In general, however, the posterior does not have closed form and sampling could be difficult and sometimes intractable. Various alternatives have been proposed such as Monte-Carlo method to approximate the posterior in EM algorithm \citep{Wei_A_1990}. \cite{Tanner_The_1987} considered data augmentation approach for calculating posterior. Analysis of posterior is studied in \cite{Rubin_The_1981} as a Bayesian Bootstrap approach.
+Typically, to implement such algorithms, one must be able to sample from the posterior distribution $p(\theta|y,z)$. In general, however, the posterior does not have closed form and sampling could be difficult and sometimes intractable. Various alternatives have been proposed such as Monte-Carlo method to approximate the posterior in EM algorithm \citep{Wei1990}. \cite{Tanner_The_1987} considered data augmentation approach for calculating posterior. Analysis of posterior is studied in \cite{Rubin_The_1981} as a Bayesian Bootstrap approach.
 
 To formalize the goal, the observed data $y$ follows a probability distribution indexed by $\theta$ : $p(y | \theta)$. We want to generate i.i.d. samples
 \begin{equation}
@@ -143,14 +143,11 @@ To formalize the goal, the observed data $y$ follows a probability distribution 
 x\mathop \sim\limits^{i.i.d.} p(\theta |y)
 \end{equation}
 
-Our approach to the problem (\ref{eq:sample}) is related to classical stochastic gradient descent (SGD) algorithms \citep{Robbins_A_1951,Polyak_Acceleration_1992}, where one assumes access to samples $y_1, ..., y_n$ from the distribution $p$ and performs gradient updates using $\nabla P(\theta ;y)$. \emph{This reduces to the randomized incremental subgradient method of \cite{Nedic_Incremental_2001} when $P$ is concentrated on a set of $n$ points, giving an objective of the form
-$p(x) = \frac{1}{n}\sum\limits_{i = 1}^n {{p_i}(x)}$.} SGD is widely applied in statistical estimation and machine learning literature \citep{LeCun_Efficient_2012,Finkel_Efficient_2008}. Classical analysis of SGD focus on convergence in nature and generally do not provide result on its sampling distribution. It is not shown until recently that SGD, under mild conditions, can be viewed as a Markov chain \citep{kushner2012stochastic,bach2014adaptivity}. No previous work has analyzed SGD as sampling technique.
+Our approach to the problem (\ref{eq:sample}) is related to classical stochastic gradient descent (SGD) algorithms \citep{Robbins_A_1951,Polyak_Acceleration_1992}, where one assumes access to samples $y_1, ..., y_n$ from the distribution $p$ and performs gradient updates using $\nabla \log p(\theta ;y)$. SGD is widely applied in statistical estimation and machine learning literature \citep{lecun2012efficient,Finkel_Efficient_2008}. Classical analysis of SGD focus on convergence in nature and generally do not provide result on its sampling distribution. Although it is shown that SGD, under mild conditions, can be viewed as a Markov chain \citep{kushner2012stochastic,bach2014adaptivity}. Very few previous work has analyzed SGD as sampling technique. When compared with other sampling methods like Metropolis-Hastings \citep{Metropolis1953}, our method utilizes only a subset of the dataset to calculate transition probability, while Metropolis-Hastings requires all samples to construct likelihood $p(x|\theta)$ and subsequently the posterior. This makes our approach more applicable to ``Big Data'' problems, when the sample size is usually in the order of millions, or even billions. Our method is also distinct from Metropolis-Hastings, a likelihood-based sampler, in that the SGD sampler is entirely based on the gradient of the target distribution.
 
-The main result of this paper is that performing stochastic gradient steps with specifically chosen step size, xxxxx results in a provably accurate and efficient sampling procedure for Bayesian posteriors. The convergence to the stationary distribution is governed by problem-dependent terms (namely the xxxx of the functions $P$, and xxxx) familiar from previous results on Markov chain [yyyyyy] as well as terms dependent on the rate at which xxxxxxx. Our xxx main theorems characterize the convergence of SGD in terms of xxxx parameter, which is xxxxx (in a sense we make precise later). In particular, we show that the stationary distribution is xxxxx with high probability.
+The main result of this paper is that performing stochastic gradient steps with specifically chosen objective function, step size, and sampling rate results in a provably accurate and efficient sampling procedure for Bayesian posteriors. The convergence to the stationary distribution is governed by problem-dependent terms (namely the expected convergence time of SGD) familiar from previous results on Markov chain \citep{aldous2002reversible,levin2009markov}. Our xxx main results characterize the sampling distribution of SGD. In particular, we show that the sampling distribution converges to the desired distribution with high probability.
 
-The remainder of the paper is organized as follows. The next section contains a description of the algorithm we analyze and our main technical results. Following that in Section 3, we show that the classic stochastic gradient descent can be viewed as a special case of our algorithm. We expand on these results and provide an upper bound of the mixing time throughout Section 4, and give numerical examples to compare our result with other sampling methods like xxxxxx. We conclude with discussion in Section 5.
-
-
+The remainder of the paper is organized as follows. The next section contains a description of the algorithm we analyze and our main technical results. Following that in Section 3, we show that the classic stochastic gradient descent can be viewed as a special case of our algorithm, and give numerical examples to demonstrate our result. We expand on these results and provide an upper bound of the mixing time throughout Section 4. We conclude with discussion in Section 5.
 
 % section introduction (end)
 % ===================================================================================
@@ -280,13 +277,16 @@ A toy example showing SGD works.
 % ===================================================================================
 \section{Upper bound on the mixing time} % (fold)
 \label{sec:upper_bound_on_the_mixing_time}
-In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $d(t) = \max_{x\in \Omega} \|P^t(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(t) = \max_{x,y\in \Omega} \|P^t(x, \cdot), P^t(y,\cdot)\|_{TV}$. Define $t_{mix} = \min\{t:d(t) < \epsilon\}$. 
+In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $d(t) = \max_{x\in \Omega} \|P^t(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(t) = \max_{x,y\in \Omega} \|P^t(x, \cdot), P^t(y,\cdot)\|_{TV}$. Define $t_{mix} = \min\{t:d(t) < \epsilon\}$.
 \begin{conjecture}[Upperbound for mixing time] $\tau$ is the convergence stoppiing time. $\tau_{mix} \leq 2 \max_{x} \E_{x}(\tau)$.
 \end{conjecture}
 % section upper_bound_on_the_mixing_time (end)
+
 % ===================================================================================
-\section{Numerical experiments} % (fold)
-\label{sec:numerical_experiments}
+\section{Discussion} % (fold)
+\label{sec:discussion}
+
+
 
 $f_1(x) = \exp(-x^4)$
 
@@ -295,10 +295,8 @@ $f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$
 $f_3(x) = \exp(-|x|)$
 
 
-% section numerical_experiments (end)
-% ===================================================================================
-\section{Discussion} % (fold)
-\label{sec:discussion}
+
+
 
 - what we have achieved
 
