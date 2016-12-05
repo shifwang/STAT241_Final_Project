@@ -162,18 +162,18 @@
 %----------------------------------------------------------------------------------------
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
-Suppose we would like to sample from a distribution $p(x) \propto f(x)$. 
-\begin{block}{SGD Sampling Algorithm}
 
+\begin{block}{SGD Sampling Algorithm}
+Suppose we would like to sample from a distribution $p(x) \propto f(x)$. 
 \begin{algorithm}[H]
 {\small
 Given $f(x)$, 
 \begin{algorithmic}\caption{Stochastic gradient descent (oracle)}\label{Alg:SGD}
 \STATE {\bf Initialize} $ \bx^0$ arbitrarily;
 \WHILE{burn-in period}
-\STATE draw $a^t$ from Gaussian distribution $\N(\nabla f(\bx^k), \Sigma^{t})$.
+\STATE draw $a^t$ from Gaussian distribution $\N(\nabla \log f(\bx^k), \Sigma^{t})$.
 \STATE
-$\bx^{k+1} \gets \bx^k - (\Sigma^t)^{-1} a^t$;
+$\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
 \STATE $k\gets k+1$;
 \ENDWHILE
 \STATE return $\bx^k$.
@@ -225,7 +225,7 @@ $\bx^{k+1} \gets \bx^k - (\Sigma^t)^{-1} a^t$;
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Stationary Distribution}
-
+Wh
 \begin{conjecture}
 For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, 2\epsilon)$.
 \end{conjecture}
