@@ -136,25 +136,18 @@ The posterior sampling method is used to great advantage by a board range of sta
 
 Typically, to implement such algorithms, one must be able to sample from the posterior distribution $p(\theta|y,z)$. In general, however, the posterior does not have closed form and sampling could be difficult and sometimes intractable. Various alternatives have been proposed such as Monte-Carlo method to approximate the posterior in EM algorithm \citep{Wei_A_1990}. \cite{Tanner_The_1987} considered data augmentation approach for calculating posterior. Analysis of posterior is studied in \cite{Rubin_The_1981} as a Bayesian Bootstrap approach.
 
+To formalize the goal, the observed data $y$ follows a probability distribution indexed by $\theta$ : $p(y | \theta)$. We want to generate i.i.d. samples
+\begin{equation}
+\label{eq:sample}
+x\mathop \sim\limits^{i.i.d.} p(\theta |y)
+\end{equation}
 
+Our approach to the problem (\ref{eq:sample}) is related to classical stochastic gradient descent (SGD) algorithms \citep{Robbins_A_1951,Polyak_Acceleration_1992}, where one assumes access to samples $y_1, ..., y_n$ from the distribution $p$ and performs gradient updates using $\nabla P(\theta ;y)$. \emph{This reduces to the randomized incremental subgradient method of \cite{Nedic_Incremental_2001} when $P$ is concentrated on a set of $n$ points, giving an objective of the form
+$p(x) = \frac{1}{n}\sum\limits_{i = 1}^n {{p_i}(x)}$.} SGD is widely applied in statistical estimation and machine learning literature \citep{LeCun_Efficient_2012,Finkel_Efficient_2008}. Classical analysis of SGD focus on convergence in nature and generally do not provide result on its sampling distribution. It is not shown until recently that SGD, under mild conditions, can be viewed as a Markov chain \citep{kushner2012stochastic,bach2014adaptivity}. No previous work has analyzed SGD as sampling technique.
 
-SGD is widely used.
-SGD has been viewed as Markov chain.
-No previous work has analyzed SGD as sampling technique.
+The main result of this paper is that performing stochastic gradient steps with specifically chosen step size, xxxxx results in a provably accurate and efficient sampling procedure for Bayesian posteriors. The convergence to the stationary distribution is governed by problem-dependent terms (namely the xxxx of the functions $P$, and xxxx) familiar from previous results on Markov chain [yyyyyy] as well as terms dependent on the rate at which xxxxxxx. Our xxx main theorems characterize the convergence of SGD in terms of xxxx parameter, which is xxxxx (in a sense we make precise later). In particular, we show that the stationary distribution is xxxxx with high probability.
 
-
-To formalize the goal, the observed data $y$ follows a probability distribution indexed by $\theta$ : $p(y | \theta)$. We want to generate i.i.d. samples from $p(\theta | y)$.
-
-
-
-
-Our approach to the problem (xxx) is related to classical stochastic gradient descent algorithms [RM51, PJ92], where one assumes access to samples xx from the distribution Π and performs gradient updates using xxx. This reduces to the randomized incremental subgradient method of Nedi and Bertsekas�� [xxxxxx] when xxx is concentrated on a set of n points, giving an objective of the form xxxxx.
-
-More generally, our problem belongs to the family of xxxxx with xxxxxx, where the goal is to xxxxxx. Classical analysis of SGD focus on xxxxx in nature and generally do not provide xxxxxx result. Our method borrows from yyyyyyy methodology [zzzzzzz], but we generalize them in that we do not assume yyyyyy.
-
-The main result of this paper is that performing stochastic gradient steps with specifically chosen step size, xxxxx results in a provably accurate and efficient sampling procedure. The convergence to the stationary distribution is governed by problem-dependent terms (namely the xxxx of the functions F, and xxxx) familiar from previous results on Markov chain [yyyyyy] as well as terms dependent on the rate at which xxxxxxx. Our xxx main theorems characterize the convergence of SGD in terms of xxxx parameter, which is xxxxx (in a sense we make precise later). In particular, we show that the stationary distribution is xxxxx with high probability.
-
-The remainder of the paper is organized as follows. The next section contains a description of the algorithm we analyze and our main technical results. Following that, we show that the classic stochastic gradient descent can be viewed as a special case of our algorithm in Section 3. We expand on these results and provide an upper bound of the mixing time throughout Section 4, and give numerical examples to compare our result with other sampling methods like xxxxxx. We conclude with discussion in Section 5.
+The remainder of the paper is organized as follows. The next section contains a description of the algorithm we analyze and our main technical results. Following that in Section 3, we show that the classic stochastic gradient descent can be viewed as a special case of our algorithm. We expand on these results and provide an upper bound of the mixing time throughout Section 4, and give numerical examples to compare our result with other sampling methods like xxxxxx. We conclude with discussion in Section 5.
 
 
 
