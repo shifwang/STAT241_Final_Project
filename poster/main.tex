@@ -151,9 +151,9 @@
 \begin{itemize}
 \item Sampling from posterior distribution is crucial in various statistical techniques
 \item Posterior can be hard to sample  (hurdle a lot of applications)
-\item SGD can be viewed as a Markov chain
-\item Property as a Markov chain seems to be largely overlooked
-\item Stationary distribution? Mixing time? Mixing time relationship with convergence rate?
+\item SGD can be viewed as a Markov chain sampler, very efficient for posterior
+\item Property as a Markov chain largely overlooked
+\item Mixing time's relationship with its convergence rate?
 \end{itemize}
 
 \end{block}
@@ -244,12 +244,11 @@ When $p(\theta)$ is the posterior distribution of some parameters given a set of
 p(\theta) = \prod_{i=1}^n P(X_i|\theta) P(\theta),
 \]
 The noisy gradient step in Algorithm 1 can be estimated by subsampling:
-\begin{theorem}[Central limit theorem]
+(Central limit theorem)
 Let $K$ be the subsampling size and $\eta_1,\ldots, \eta_K$ be samples drawing from $1,\ldots, n$ with replacement, then
 \[
 K^{-1}\sum_{i=1}^K (\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) \sim \N(n^{-1} \nabla \log p(\theta) , K^{-1}\cov \nabla \log p(\theta)).
 \]
-\end{theorem}
 
 See Figure 2 for the simulation result.
 
