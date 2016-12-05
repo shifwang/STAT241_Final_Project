@@ -216,7 +216,7 @@ $\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
     \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e3.png}
     \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e4.png}
     \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e5.png}
-    \caption{Experiment 1: the empirical histogram using SGD. Each column corresponds to a different number of samples ($1e3$, $1e4$, and $1e5$), each row corresponds to a different distrubtion ($f_1(x) = \exp(-x^4)$, $f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$}
+    \caption{Empirical stationary distribution using SGD. Different columns correspond to different samples sizes ($1e3$, $1e4$, and $1e5$). Different rows correspond to different distributions ($f_1(x) = \exp(-x^4)$, $f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$.}
     \label{Fig:exp1}
 \end{figure}
 
@@ -225,7 +225,6 @@ $\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Stationary Distribution}
-Wh
 \begin{conjecture}
 For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, 2\epsilon)$.
 \end{conjecture}
