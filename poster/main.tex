@@ -86,15 +86,15 @@
 \newtheorem{experiment}{Experiment}
 
 % inline theorem
-\makeatletter
-\setbeamertemplate{theorem begin}
-  {\usebeamercolor[fg]{thcolor}% for the heading
-  {\bfseries\inserttheoremname~}%
-  \ifx\inserttheoremaddition\@empty\else(\inserttheoremaddition)\ \fi%
-  \hspace{.01em}\normalfont\usebeamercolor[fg]{thcolor}% for the body
-  }
-\setbeamertemplate{theorem end}{}
-\makeatother
+% \makeatletter
+% \setbeamertemplate{theorem begin}
+%   {\usebeamercolor[fg]{thcolor}% for the heading
+%   {\bfseries\inserttheoremname~}%
+%   \ifx\inserttheoremaddition\@empty\else(\inserttheoremaddition)\ \fi%
+%   \hspace{.01em}\normalfont\usebeamercolor[fg]{thcolor}% for the body
+%   }
+% \setbeamertemplate{theorem end}{}
+% \makeatother
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@
 
 \begin{itemize}
 \item Sampling from posterior distribution is crucial in various statistical techniques
-\item Posterior can be hard to sample  (hurdle a lot of applications)
+\item Posterior can be hard to sample (hurdle a lot of applications)
 \item SGD can be viewed as a Markov chain sampler, very efficient for posterior
 \item Property as a Markov chain largely overlooked
 \item Mixing time's relationship with its convergence rate?
@@ -240,10 +240,11 @@ That implies $f(\cdot)$ is indeed the stationary distribution of Algorithm 1. Si
 
 \begin{block}{SGD As Fast Posterior Sampler}
 When $p(\theta)$ is the posterior distribution of some parameters given a set of data $X_1,\ldots, X_n$, i.e.,
-\[
+$$
 p(\theta) = \prod_{i=1}^n P(X_i|\theta) P(\theta),
-\]
+$$
 The noisy gradient step in Algorithm 1 can be estimated by subsampling:
+
 (Central limit theorem)
 Let $K$ be the subsampling size and $\eta_1,\ldots, \eta_K$ be samples drawing from $1,\ldots, n$ with replacement, then
 \[
@@ -277,11 +278,11 @@ See Figure 2 for the simulation result.
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Upper Bound On Mixing Time}
-How effective Algorithm 1 is as a sampling method? Denote $\|\cdot\|_{\mathrm{TV}}$ the TV norm and $P^t(\bx^0)$ the density of $\bx^t$ starting from $\bx^0$. Define its mixing time to be
+How effective is Algorithm 1 as a sampling method? Denote $\|\cdot\|_{\mathrm{TV}}$ the TV norm and $P^t(\bx^0)$ the density of $\bx^t$ starting from $\bx^0$. Define its mixing time to be
 \[
 \tau_{\mathrm{mix}} \triangleq \min\{t|\max_{\bx^0}\|P^t(\bx^0) - p\|_{\mathrm{TV}}\leq 1/4\}.
 \]
-Suppose $\tau_{\bx^0}$ is the stopping time when the algorithm converges to global minimum starting from $\bx^0$, we might be able to have a upper bound for $\tau_{\mathrm{mix}}$.
+Suppose $\tau_{\bx^0}$ is the stopping time when the algorithm converges to the global minimum starting from $\bx^0$, we might be able to have an upper bound for $\tau_{\mathrm{mix}}$.
 \[
 \tau_{\mathrm{mix}} \leq 4 \max_{\bx^0}\E \tau_{\bx^0}.
 \]
@@ -297,7 +298,7 @@ So when SGD converges fast, it will also be efficient as a sampling method.
 \begin{itemize}
 \item Proposed fast SGD sampler for posterior distributions when computing the likelihood using full data is intensive
 \item Proved accurate stationary distribution based on oracle results
-\item Established connection between SGD and maximize \emph{a posteriori}
+\item Established connection between SGD and maximum \emph{a posteriori}
 \item Derived upper bound on mixing time
 \item Future work: Finite sample rates of convergence for the mixing time
 \end{itemize}
