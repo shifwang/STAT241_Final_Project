@@ -24,7 +24,8 @@
 
 \documentclass[final]{beamer}
 
-\usepackage[scale=1.24]{beamerposter} % Use the beamerposter package for laying out the poster
+% \usepackage[scale=1.24]{beamerposter} % Use the beamerposter package for laying out the poster
+\usepackage[scale=0.8]{beamerposter}
 
 \usetheme{confposter} % Use the confposter theme supplied with this template
 
@@ -46,8 +47,10 @@
 \newlength{\onecolwid}
 \newlength{\twocolwid}
 \newlength{\threecolwid}
-\setlength{\paperwidth}{48in} % A0 width: 46.8in
-\setlength{\paperheight}{36in} % A0 height: 33.1in
+% \setlength{\paperwidth}{48in} % A0 width: 46.8in
+% \setlength{\paperheight}{36in} % A0 height: 33.1in
+\setlength{\paperwidth}{36in} % A0 width: 46.8in
+\setlength{\paperheight}{24in} % A0 height: 33.1in
 \setlength{\sepwid}{0.024\paperwidth} % Separation width (white space) between columns
 % \setlength{\onecolwid}{0.22\paperwidth} % Width of one column
 % \setlength{\twocolwid}{0.464\paperwidth} % Width of two columns
@@ -68,6 +71,29 @@
 \usepackage{algorithmic}
 \usepackage{grffile}
 
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\D}{\mathscr{D}}
+\newcommand{\N}{\mathscr{N}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\var}{\mathrm{var}}
+\DeclareMathOperator*{\argmin}{\arg\!\min}
+
+\newtheorem{conjecture}{Conjecture}
+% \newtheorem{theorem}{Theorem}
+\newtheorem{experiment}{Experiment}
+
+% inline theorem
+\makeatletter
+\setbeamertemplate{theorem begin}
+  {\usebeamercolor[fg]{thcolor}% for the heading
+  {\bfseries\inserttheoremname~}%
+  \ifx\inserttheoremaddition\@empty\else(\inserttheoremaddition)\ \fi%
+  \hspace{.01em}\normalfont\usebeamercolor[fg]{thcolor}% for the body
+  }
+\setbeamertemplate{theorem end}{}
+\makeatother
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -81,6 +107,8 @@
 %----------------------------------------------------------------------------------------
 
 \begin{document}
+
+
 
 \addtobeamertemplate{block end}{}{\vspace*{2ex}} % White space under blocks
 \addtobeamertemplate{block alerted end}{}{\vspace*{2ex}} % White space under highlighted (alert) blocks
@@ -114,6 +142,20 @@
 \end{alertblock}
 
 %----------------------------------------------------------------------------------------
+%   MOTIVATION
+%----------------------------------------------------------------------------------------
+
+\begin{block}{Motivation}
+
+\begin{itemize}
+    \item aaa
+\end{itemize}
+
+\end{block}
+
+%------------------------------------------------
+%
+%----------------------------------------------------------------------------------------
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
 
@@ -121,30 +163,22 @@
 
 \begin{algorithm}[H]
 {\small
-Given data $X_1,\ldots, X_n$, model $p(X|\theta)$, sample size $K$
-\begin{algorithmic}\caption{SGD based sampling}\label{Alg:SGD_Sampling}
-\STATE {\bf Initialize} $ \theta^0$, $t \gets 0$;
+Given objective function $h(x)$, stepsize $\alpha$, noise level $\sigma^2$,
+\begin{algorithmic}\caption{Stochastic gradient descent (oracle)}\label{Alg:SGD}
+\STATE {\bf Initialize} $ \bx^0$ arbitrarily;
 \WHILE{stopping criterion not satisfied}
-\STATE draw $K$ iid samples with replacement from $1,\ldots, n$, denoted $\eta_1,\ldots, \eta_K$.
-\STATE calculate the mean $a^t$ and the variance $v^t$ of $(\nabla\log p(X_{\eta_i}|\theta^t))_{i=1}^K$.
-\STATE set the stepsize $\alpha^t \gets K^{-1} v^t$
+\STATE draw $\epsilon^t$ from Gaussian distribution $\N(0, \sigma^2)$.
 \STATE
-$\theta^{t+1} \gets \theta^t + \alpha^ta^t$;
-\STATE $t\gets t+1$;
+$\bx^{k+1} \gets \bx^k - \alpha\nabla f(\bx^k) + \epsilon^t$;
+\STATE $k\gets k+1$;
 \ENDWHILE
-\STATE return $\theta^k$.
+\STATE return $\bx^k$.
 \end{algorithmic}}
 \end{algorithm}
 
 
 \end{block}
 
-%------------------------------------------------
-
-\begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
-\caption{Figure caption}
-\end{figure}
 
 %----------------------------------------------------------------------------------------
 
@@ -177,23 +211,9 @@ $\theta^{t+1} \gets \theta^t + \alpha^ta^t$;
 
 \begin{block}{Stationary Distribution}
 
-The following materials were required to complete the research:
-
-\begin{itemize}
-\item Curabitur pellentesque dignissim
-\item Eu facilisis est tempus quis
-\item Duis porta consequat lorem
-\item Eu facilisis est tempus quis
-\end{itemize}
-
-The materials were prepared according to the steps outlined below:
-
-\begin{enumerate}
-\item Curabitur pellentesque dignissim
-\item Eu facilisis est tempus quis
-\item Duis porta consequat lorem
-\item Curabitur pellentesque dignissim
-\end{enumerate}
+\begin{conjecture}
+For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, 2\epsilon)$.
+\end{conjecture}
 
 \end{block}
 
@@ -204,12 +224,14 @@ The materials were prepared according to the steps outlined below:
 
 \begin{block}{SGD As Posterior Sampler}
 
-Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius dictum.
-\begin{itemize}
-\item Curabitur pellentesque dignissim
-\item Eu facilisis est tempus quis
-\item Duis porta consequat lorem
-\end{itemize}
+\begin{theorem}[Central limit theorem]
+Let $K = \alpha^{-1} \var \log P(X_1|\theta^t)$,
+\[
+\sum_{i=1}^K (K^{-1}\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) - (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) \sim \N(0, \alpha).
+\]
+\end{theorem}
+
+A toy example showing SGD works.
 
 \end{block}
 
@@ -225,7 +247,8 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 %------------------------------------------------
 
 \begin{figure}
-\includegraphics[width=0.8\linewidth]{placeholder.jpg}
+\includegraphics[width=0.4\linewidth]{../figure/simulation2_empirical.png}
+\includegraphics[width=0.4\linewidth]{../figure/simulation2_real.png}
 \caption{Figure caption}
 \end{figure}
 
