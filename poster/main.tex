@@ -238,7 +238,7 @@ That implies $f(\cdot)$ is indeed the stationary distribution of Algorithm 1. Si
 %   ADDITIONAL INFORMATION
 %----------------------------------------------------------------------------------------
 
-\begin{block}{SGD As Posterior Sampler}
+\begin{block}{SGD As Fast Posterior Sampler}
 When $p(\theta)$ is the posterior distribution of some parameters given a set of data $X_1,\ldots, X_n$, i.e.,
 \[
 p(\theta) = \prod_{i=1}^n P(X_i|\theta) P(\theta),
@@ -269,7 +269,7 @@ See Figure 2 for the simulation result.
 \begin{figure}
 \includegraphics[width=0.5\linewidth]{../figure/simulation2_empirical.png}
 \includegraphics[width=0.5\linewidth]{../figure/simulation2_real.png}
-\caption{Figure caption}
+\caption{The empirical/real density for $(\mu, \sigma^2)$ where $p(X_1|\mu, \sigma^2)\sim \N(\mu, \sigma^2)$, data $X_1,\ldots, X_{1000}$ is drawn from $\N(0, 1)$, $K = 1000$, sample size is $1000$. The empirical density is close to the real density. Note that variance $\sigma^2$ has higher variance than the expectation $\mu$}
 \end{figure}
 
 
@@ -278,8 +278,15 @@ See Figure 2 for the simulation result.
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Upper Bound On Mixing Time}
-Mixing time correspon
-
+How effective Algorithm 1 is as a sampling method? Denote $\|\cdot\|_{\mathrm{TV}}$ the TV norm and $P^t(\bx^0)$ the density of $\bx^t$ starting from $\bx^0$. Define its mixing time to be 
+\[
+\tau_{\mathrm{mix}} \triangleq \min\{t|\max_{\bx^0}\|P^t(\bx^0) - p\|_{\mathrm{TV}}\leq 1/4\}.
+\]
+Suppose $\tau_{\bx^0}$ is the stopping time when the algorithm converges to global minimum starting from $\bx^0$, we might be able to have a upper bound for $\tau_{\mathrm{mix}}$.
+\[
+\tau_{\mathrm{mix}} \leq 4 \max_{\bx^0}\E \tau_{\bx^0}.
+\]
+So when SGD converges fast, it will also be efficient as a sampling method.
 \end{block}
 
 %----------------------------------------------------------------------------------------
@@ -289,7 +296,7 @@ Mixing time correspon
 \begin{block}{Conclusion}
 
 \begin{itemize}
-\item Proposed fast SGD sampler for posterior distributions. Computing the likelihood from the full data is intensive.
+\item Proposed fast SGD sampler for posterior distributions when computing the likelihood using full data is intensive
 \item Proved accurate stationary distribution based on oracle results
 \item Established connection between SGD and maximize \emph{a posteriori} (MAP)
 \item Derived upper bound on mixing time
@@ -317,7 +324,7 @@ Mixing time correspon
 %----------------------------------------------------------------------------------------
 
 
-\begin{block}{Contant Information}
+\begin{block}{Contact Information}
 
 \begin{itemize}
 \item Email: \href{mailto:wang.yu@berkeley.edu, wcai@berkeley.edu}{\{wang.yu, wcai\}@berkeley.edu}
