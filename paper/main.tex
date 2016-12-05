@@ -83,6 +83,7 @@
 % \biboptions{}
 \newcommand{\bx}{\mathbf{x}}
 \newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
 \newcommand{\D}{\mathscr{D}}
 \newcommand{\N}{\mathscr{N}}
 \newcommand{\by}{\mathbf{y}}
@@ -264,10 +265,9 @@ Given data $X_1,\ldots, X_n$, model $p(X|\theta)$, sample size $K$
 \STATE {\bf Initialize} $ \theta^0$, $t \gets 0$;
 \WHILE{stopping criterion not satisfied}
 \STATE draw $K$ iid samples with replacement from $1,\ldots, n$, denoted $\eta_1,\ldots, \eta_K$.
-\STATE calculate the mean $a^t$ and the variance $v^t$ of $(\nabla\log p(X_{\eta_i}|\theta^t))_{i=1}^K$.
-\STATE set the stepsize $\alpha^t \gets K^{-1} v^t$
+\STATE calculate the mean $a^t$ and the covariance matrix $\Sigma^t$ of $(\nabla\log p(X_{\eta_i}|\theta^t))_{i=1}^K$.
 \STATE
-$\theta^{t+1} \gets \theta^t + \alpha^ta^t$;
+$\theta^{t+1} \gets \theta^t + 2(\Sigma^t)^{-1}a^t$;
 \STATE $t\gets t+1$;
 \ENDWHILE
 \STATE return $\theta^k$.
@@ -278,7 +278,9 @@ A toy example showing SGD works.
 % ===================================================================================
 \section{Upper bound on the mixing time} % (fold)
 \label{sec:upper_bound_on_the_mixing_time}
-
+In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $d(t) = \max_{x\in \Omega} \|P^t(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(t) = \max_{x,y\in \Omega} \|P^t(x, \cdot), P^t(y,\cdot)\|_{TV}$. Define $t_{mix} = \min\{t:d(t) < \epsilon\}$. 
+\begin{conjecture}[Upperbound for mixing time] $\tau$ is the convergence stoppiing time. $\tau_{mix} \leq 2 \max_{x} \E_{x}(\tau)$.
+\end{conjecture}
 % section upper_bound_on_the_mixing_time (end)
 % ===================================================================================
 \section{Numerical experiments} % (fold)
