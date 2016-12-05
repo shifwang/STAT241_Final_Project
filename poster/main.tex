@@ -148,7 +148,11 @@
 \begin{block}{Motivation}
 
 \begin{itemize}
-    \item aaa
+\item Sampling from posterior distribution is crucial in various statistical techniques
+\item Posterior can be hard to sample  (hurdle a lot of applications)
+\item SGD can be viewed as a Markov chain
+\item Property as a Markov chain seems to be largely overlooked
+\item Stationary distribution? Mixing time? Mixing time relationship with convergence rate?
 \end{itemize}
 
 \end{block}
@@ -247,8 +251,8 @@ A toy example showing SGD works.
 %------------------------------------------------
 
 \begin{figure}
-\includegraphics[width=0.4\linewidth]{../figure/simulation2_empirical.png}
-\includegraphics[width=0.4\linewidth]{../figure/simulation2_real.png}
+\includegraphics[width=0.5\linewidth]{../figure/simulation2_empirical.png}
+\includegraphics[width=0.5\linewidth]{../figure/simulation2_real.png}
 \caption{Figure caption}
 \end{figure}
 
@@ -275,7 +279,11 @@ Maecenas ultricies feugiat velit non mattis. Fusce tempus arcu id ligula varius 
 \begin{block}{Conclusion}
 
 \begin{itemize}
-    \item aaa
+\item Proposed fast SGD sampler for posterior distributions. Computing the likelihood from the full data is intensive.
+\item Proved accurate stationary distribution based on oracle results
+\item Established connection between SGD and maximize \emph{a posteriori} (MAP)
+\item Derived upper bound on mixing time
+\item Future work: Finite sample rates of convergence for the mixing time
 \end{itemize}
 
 \end{block}
