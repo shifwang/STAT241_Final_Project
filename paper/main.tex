@@ -114,7 +114,7 @@ Currently, there aren't a lot of schemes available to analyzing SGD's mixing tim
 
 Our proposal is to bridge the gap between classical Markov chain analysis and SGD. Specifically,  we would like to explore mixing time related issues and obtain some novel theoretical and empirical findings on the mixing time of SGD (If successful). The hunch is that if SGD converges fast, it will have a low mixing time. This seems to be a novel perspective to understand SGD. Duchi et al.\cite{duchi2012ergodic} shows how the finite-sample convergence rate (expected convergence \& high-probability convergence) of stochastic sub-gradient descent depends on the mixing time of the process. If we can bound the mixing time, subsequently, we will be able to understand the convergence of this class of optimization techniques. Theoretical analysis as well as empirical experiments will be carried out to further explore this issue.
 
-During the poster session, the proposed method seems to be a rediscovery of the Langevin MCMC sampling. 
+During the poster session, the proposed method seems to be a rediscovery of the Langevin MCMC sampling.
 
 Our group contains two people. The tentative plan is that Yu focuses on the theoretical exploration and Weixin focuses on the empirical experiments. The final report will be written together.
 \end{abstract}
@@ -162,10 +162,10 @@ Define $\D(\R^p)$ to be the family of the density functions of smooth random var
 \begin{equation}
 \D(\R^p)\triangleq \{p(\bx)\Big| p\in C^1(\R^p),~p(\bx) \geq 0,~ \int_\bx p(\bx) = 1.\}
 \end{equation}
-Suppose we would like to sample from a distribution $p(\bx)\in \D(\R^p) \propto f(\bx)$. 
+Suppose we would like to sample from a distribution $p(\bx)\in \D(\R^p) \propto f(\bx)$.
 \begin{algorithm}[H]
 {\small
-Given $f(x)$, 
+Given $f(x)$,
 \begin{algorithmic}\caption{Stochastic gradient descent (oracle)}\label{Alg:SGD}
 \STATE {\bf Initialize} $ \bx^0$ arbitrarily;
 \WHILE{burn-in period}
@@ -288,8 +288,8 @@ Consider the empirical/real density for $(\mu, \sigma^2)$ where $p(X_1|\mu, \sig
 % ===================================================================================
 \section{Upper bound on the mixing time} % (fold)
 \label{sec:upper_bound_on_the_mixing_time}
-In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $P^k(\bx^0)$ the density of $\bx^k$ starting from $\bx^0$, $d(k) = \max_{x\in \Omega} \|P^k(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(k) = \max_{x,y\in \Omega} \|P^k(x, \cdot), P^k(y,\cdot)\|_{TV}$. 
-Define its mixing time to be 
+In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $P^k(\bx^0)$ the density of $\bx^k$ starting from $\bx^0$, $d(k) = \max_{x\in \Omega} \|P^k(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(k) = \max_{x,y\in \Omega} \|P^k(x, \cdot), P^k(y,\cdot)\|_{TV}$.
+Define its mixing time to be
 \[
 \tau_{\mathrm{mix}} \triangleq \min\{k|\max_{\bx^0}\|P^k(\bx^0) - p\|_{\mathrm{TV}}\leq 1/4\}.
 \]
@@ -312,7 +312,7 @@ Calculate $d(k)$, namely the TV distance between empirical pdf (using Gaussian k
     \item $P(x) \propto \exp(- |x|^3)$
     \item $P(x) \propto \exp(- |x|^4)$
     \item $P(x) \propto \exp(- (x^ - 4)(x^2 - 1))$
-\end{enumerate} 
+\end{enumerate}
 \end{experiment}
 \begin{figure}
 \centering
@@ -331,24 +331,43 @@ Calculate $d(k)$, namely the TV distance between empirical pdf (using Gaussian k
 \includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}
 \caption{Empirical density of $x^k$ for $k = 100$ for $\exp(- |x|)$ (upper left), $\exp(- |x|^2)$ (upper right), $\exp(- |x|^3)$ (lower left), $\exp(- |x|^4)$ (lower right). For $\exp(-|x|)$, it has not converge to the true pdf yet. For $\exp(-|x|^4)$, it has already converged.}\label{Fig:sim3_2}
 \end{figure}
-As shown in Figure \ref{Fig:sim3_1} and Figure \ref{Fig:sim3_2}, the mixing time of $\exp(-|x|)$ is the longest (> 100) and the mixing time of $\exp(-|x|^4)$ is the shortest. This is coherent with their convergence time. For $\exp(-|x|)$, the convergence time is the longest; for $\exp(-|x|^4)$, the convergence time is the longest.
+As shown in Figure \ref{Fig:sim3_1} and Figure \ref{Fig:sim3_2}, the mixing time of $\exp(-|x|)$ is the longest ($>$ 100) and the mixing time of $\exp(-|x|^4)$ is the shortest. This is coherent with their convergence time. For $\exp(-|x|)$, the convergence time is the longest; for $\exp(-|x|^4)$, the convergence time is the longest.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll}
+\hline
+Density & Median convergence time \\
+\hline
+1        & 164\\
+2        & 144\\
+3        & 138\\
+4        & 129\\
+5        & 21480\\
+\hline
+\end{tabular}
+\caption{Median convergence time of the five target densities}
+\label{tbl:med_conv_time}
+\end{table}
+
+
 \begin{figure}
 \centering
-\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf1.pdf}
-\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf2.pdf}
-\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf3.pdf}
+% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf1.pdf}
+% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf2.pdf}
+% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf3.pdf}
 \caption{Empirical density of $x^k$ for $k = 100, 1000, 10000$ for $\exp(- (x^2 - 1)(x^2 - 4))$. }\label{Fig:sim3_3}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics[width=.3\textwidth]{../figure/sim3/case5_l1.pdf}
+% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_l1.pdf}
 \caption{$d(k)$, difference between the empirical pdf and the expected pdf for $\exp(- (x^2 - 1)(x^2 - 4))$. }\label{Fig:sim3_4}
 \end{figure}
-As shown in Figure \ref{Fig:sim3_3} and Figure \ref{Fig:sim3_4}, the mixing time of $\exp(-(x^2 - 1)(x^4= 1))$ is much longer than any single mode distribution. Its convergence time is also the longest.
+As shown in Figure \ref{Fig:sim3_3} and Figure \ref{Fig:sim3_4}, the mixing time of $\exp(-(x^2 - 1)(x^4 - 1))$ is much longer than any single mode distribution. Its convergence time is also the longest.
 
 % section upper_bound_on_the_mixing_time (end)
-
+\newpage
 % ===================================================================================
 \section{Discussion} % (fold)
 \label{sec:discussion}
@@ -364,7 +383,7 @@ A detailed contribution is summarized as the following:
 \end{enumerate}
 Future work includes:
 \begin{enumerate}
-    \item we will dig into the literature on Langevin MCMC and learn more about this issue. 
+    \item we will dig into the literature on Langevin MCMC and learn more about this issue.
     \item Current analysis cannot apply to the multiple-mode distribution. The simple simulation showed SGD, although very slow, still works in that case. Thus we might be able to consider this scenario in the future.
     \item The mixing time of SGD based sampling will be prohibitively large when multiple modes are present. We would also like to consider how to overcome this issue.
 \end{enumerate}
@@ -374,18 +393,18 @@ Future work includes:
 We would like to thank Professor Martin Wainwright for his inspiring teaching this semester. And we also greatly appreciate Arturo Fernandez and Jeffery Chan, our GSIs, for their devotion in this course.
 
 % section discussion (end)
-\newpage
+% \newpage
 % ===================================================================================
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
-\appendix
+% \appendix
 
-\section{Section in Appendix}
-\label{appendix-sec1}
+% \section{Section in Appendix}
+% \label{appendix-sec1}
 
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text.
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text.
-Sample text.
+% Sample text. Sample text. Sample text. Sample text. Sample text. Sample text.
+% Sample text. Sample text. Sample text. Sample text. Sample text. Sample text.
+% Sample text.
 
 %% References
 %%
