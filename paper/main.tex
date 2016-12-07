@@ -55,7 +55,7 @@
 \usepackage{algorithmic}
 \usepackage{graphicx}
 \usepackage{grffile}
-
+\usepackage{listings}
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers after \end{frontmatter}.
@@ -219,7 +219,7 @@ When $h$ is a quadratic function, the detailed balance holds exactly.
 Note that this is only a rough deduction instead of an accurate proof. The problem of this deduction is two-fold. First, the equality only holds approximately. Second, SGD sampler's stationary distribution might not satisfy the detailed balance condition. Therefore, we would like to examine the stationary distribution of SGD empirically for some special cases.
 
 \begin{experiment}
-Take the density function of $X$ to be $f(x) \propto \exp(- x^4)$, let $2\sigma^2 = \epsilon = 0.005$, $x_0 = 1$, burning-in period is $1000$, waiting period is $1000$, the empirical histogram v.s. the desired histogram is plotted in Figure ???
+Take the density function of $X$ to be $f(x) \propto \exp(- x^4)$, let $2\sigma^2 = \epsilon = 0.005$, $x_0 = 1$, burning-in period is $1000$, waiting period is $1000$, the empirical histogram v.s. the desired histogram is plotted in Figure 1.
 \end{experiment}
 \begin{figure}
     \centering
@@ -318,17 +318,17 @@ Calculate $d(k)$, namely the TV distance between empirical pdf (using Gaussian k
 \centering
 
 \includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}
-\includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}\\
-\includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}
-\includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case2_l1.pdf}\\
+\includegraphics[width=.3\textwidth]{../figure/sim3/case3_l1.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case4_l1.pdf}
 \caption{$d(k)$ for $\exp(- |x|)$ (upper left), $\exp(- |x|^2)$ (upper right), $\exp(- |x|^3)$ (lower left), $\exp(- |x|^4)$ (lower right). It can be seen that $d(k)$ decreases exponentially for all of the functions. And the mixing time decreases as the degree increases.}\label{Fig:sim3_1}
 \end{figure}
 \begin{figure}
 \centering
 \includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}
-\includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}\\
-\includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}
-\includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case2_pdf.pdf}\\
+\includegraphics[width=.3\textwidth]{../figure/sim3/case3_pdf.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case4_pdf.pdf}
 \caption{Empirical density of $x^k$ for $k = 100$ for $\exp(- |x|)$ (upper left), $\exp(- |x|^2)$ (upper right), $\exp(- |x|^3)$ (lower left), $\exp(- |x|^4)$ (lower right). For $\exp(-|x|)$, it has not converge to the true pdf yet. For $\exp(-|x|^4)$, it has already converged.}\label{Fig:sim3_2}
 \end{figure}
 As shown in Figure \ref{Fig:sim3_1} and Figure \ref{Fig:sim3_2}, the mixing time of $\exp(-|x|)$ is the longest (> 100) and the mixing time of $\exp(-|x|^4)$ is the shortest. This is coherent with their convergence time. For $\exp(-|x|)$, the convergence time is the longest; for $\exp(-|x|^4)$, the convergence time is the longest.
@@ -379,13 +379,12 @@ We would like to thank Professor Martin Wainwright for his inspiring teaching th
 %% The Appendices part is started with the command \appendix;
 %% appendix sections are then done as normal sections
 \appendix
-
-\section{Section in Appendix}
-\label{appendix-sec1}
-
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text.
-Sample text. Sample text. Sample text. Sample text. Sample text. Sample text.
-Sample text.
+\tiny
+\lstinputlisting[language=python]{../code/final/1_1/convergence.py}
+\lstinputlisting[language=python]{../code/final/1_1/example1_1.ipy}
+\lstinputlisting[language=python]{../code/final/1_1/simulation.py}
+\lstinputlisting[language=python]{../code/final/1_1/mixing.py}
+\lstinputlisting[language=python]{../code/final/1_1/proof_of_concept.py}
 
 %% References
 %%
