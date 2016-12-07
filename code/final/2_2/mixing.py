@@ -45,20 +45,23 @@ def pdf_normalize(pdf_func, a = -3, b = 3, dx = .01):
 #     return np.mean(abs(val1 - val2))
 # ====================================================================================
 def pdf_l1(emp_samples, station_func, a= -3, b=3, dx=.01):
-    # all_traject = pickle.load(open('all_traject.pickle', 'rb'))
-    # emp_samples = all_traject[100,:]
+    all_traject = pickle.load(open('all_traject.pickle', 'rb'))
+    emp_samples = all_traject[99998,:]
+    # emp_samples = all_traject[200,:]
+    emp_samples = all_traject[9999,:]
 
     X  = np.arange(a,b,dx)
-    kde = sp.stats.gaussian_kde(emp_samples, bw_method=None)
+    # kde = sp.stats.gaussian_kde(emp_samples, bw_method=None)
+    kde = sp.stats.gaussian_kde(emp_samples, bw_method=0.02)
     e_pdf = kde.evaluate(X) # vector of pdf value
 
     station_pdf = pdf_normalize(pdf_func = station_func, a=a, b=b, dx=dx)
     t_pdf = station_pdf(X)
 
-    # plt.figure()
-    # plt.plot(X, e_pdf)
-    # plt.plot(X, t_pdf)
-    # plt.savefig('density.pdf', format='pdf')
+    plt.figure()
+    plt.plot(X, e_pdf)
+    plt.plot(X, t_pdf)
+    plt.savefig('density.pdf', format='pdf')
 
     return np.mean(abs(e_pdf - t_pdf))
 
@@ -127,7 +130,8 @@ def mixing_time(all_traject, station_func, epsilon_norm = 1/4, a=-3, b=3, dx=.01
         l1_all[it] = pdf_l1(emp_samples = all_traject[it,:], station_func = station_func, a=a, b=b, dx=dx)
 
     # plt.figure()
-    # plt.plot(l1_all[0:9000])
+    # plt.plot(l1_all[0:9999])
+    # # plt.plot(l1_all[0:500])
     # plt.ylim((0, .5))
     # plt.savefig('l1.pdf', format='pdf')
 
