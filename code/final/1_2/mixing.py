@@ -48,13 +48,22 @@ def pdf_normalize(pdf_func, a = -3, b = 3, dx = .01):
 # graph(ecdf, range(-3, 3))
 # graph(station_cdf, range(-3, 3))
 def pdf_l1(emp_samples, station_func, a= -3, b=3, dx=.01):
-    # ecdf = sm.distributions.empirical_distribution.ECDF(emp_samples)
+    # all_traject = pickle.load(open('all_traject.pickle', 'rb'))
+    # emp_samples = all_traject[100,:]
+
     X  = np.arange(a,b,dx)
     kde = sp.stats.gaussian_kde(emp_samples, bw_method=None)
     e_pdf = kde.evaluate(X) # vector of pdf value
 
     station_pdf = pdf_normalize(pdf_func = station_func, a=a, b=b, dx=dx)
     t_pdf = station_pdf(X)
+
+
+    # plt.figure()
+    # plt.plot(X, e_pdf)
+    # plt.plot(X, t_pdf)
+    # plt.savefig('density.pdf', format='pdf')
+
 
     return np.mean(abs(e_pdf - t_pdf))
 
@@ -122,11 +131,13 @@ def mixing_time(all_traject, station_func, epsilon_norm = 1/4, a=-3, b=3, dx=.01
     for it in range(0,N_total):
         l1_all[it] = pdf_l1(emp_samples = all_traject[it,:], station_func = station_func, a=a, b=b, dx=dx)
 
-    # plt.plot(l1_all)
-    # plt.savefig('yo.pdf', format='pdf')
+    # plt.figure()
+    # plt.plot(l1_all[0:400])
+    # plt.ylim((0, .5))
+    # plt.savefig('l1.pdf', format='pdf')
 
     pickle.dump(obj = l1_all, file = open('./l1_all.pickle', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
-    # l1_all = pickle.load('l1_all.pickle')
+    # l1_all = pickle.load(open('l1_all.pickle', 'rb'))
 
     is_mix = l1_all <= epsilon_norm
 

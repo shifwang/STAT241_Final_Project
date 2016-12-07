@@ -28,7 +28,7 @@ degree = 3
 def func(x, degree = degree):
     return -abs(np.power(x, degree))
 def grad(x, degree = degree):
-    return -degree * np.power(x, degree - 1)
+    return -degree * np.power(x, degree - 1) * np.sign(x)
 def station_func(x):
     return np.exp(func(x))
 modes = [0]
@@ -40,7 +40,7 @@ modes = [0]
 
 all_traject = simu_all_parallel(n_sim = 1e3, func = func, grad = grad,
                                 initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1,
-                                 maxIter=int(1e4), desiredObj=100, burn_in = 1e3)
+                                 maxIter=int(1e4), desiredObj=100, burn_in = 1)
 # 100 n_sim = 1.25 min
 
 pickle.dump(obj = all_traject, file = open('./all_traject.pickle', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)

@@ -73,7 +73,7 @@ def ProofOfConcept():
     def grad(x):
         return -degree * np.power(x, degree - 1)
     trajectory, image, haltIter = GD(func, grad, initialPoint=1., stepsize=1e-2/2,
-                                     noiseLevel=1e-1, maxIter=int(1e7), desiredObj=100)
+                                     noiseLevel=1e-1, maxIter=int(1e5), desiredObj=100)
     #plt.figure()
     #plt.plot(trajectory[0:haltIter], image[0:haltIter])
     plt.figure()
@@ -99,8 +99,8 @@ def ProofOfConcept2():
     def grad(x):
         return (-4 * x ** 3 + 10 * x) * c
     trajectory, image, haltIter = GD(func, grad, initialPoint=1., stepsize=1e-2/2,
-                                     noiseLevel=1e-1, maxIter=int(1e7), desiredObj=100)
-                                     # noiseLevel=1e-1, maxIter=int(1e4), desiredObj=100)
+                                     noiseLevel=1e-1, maxIter=int(1e5), desiredObj=100)
+                                     # noiseLevel=1e-1, maxIter=int(1e5), desiredObj=100)
     #plt.figure()
     #plt.plot(trajectory[0:haltIter], image[0:haltIter])
     plt.figure()
@@ -128,7 +128,7 @@ def GD_UnitTest(order = 1):
     def grad(x):
         return order * np.power(abs(x), order - 1)
     trajectory, image, haltIter = GD(func, grad, initialPoint=1e-3, stepsize=1e-4/2,
-                                     noiseLevel=1e-2, maxIter=int(1e6), desiredObj=1)
+                                     noiseLevel=1e-2, maxIter=int(1e5), desiredObj=1)
     # the
     plt.figure()
     plt.plot(trajectory[0:haltIter], image[0:haltIter])

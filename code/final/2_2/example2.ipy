@@ -44,11 +44,11 @@ modes = [-np.sqrt(2.5), np.sqrt(2.5)]
 
 all_traject = simu_all_parallel(n_sim = 1e3, func = func, grad = grad,
                                 initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1,
-                                 maxIter=int(1e4), desiredObj=100, burn_in = 1e3)
+                                 maxIter=int(1e5), desiredObj=100, burn_in = 1)
 # 100 n_sim = 1.25 min
 
 pickle.dump(obj = all_traject, file = open('./all_traject.pickle', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
-# all_traject = pickle.load('all_traject.pickle')
+# all_traject = pickle.load(open('all_traject.pickle', 'rb'))
 
 mix_time = mixing.mixing_time(all_traject = all_traject, station_func = station_func,
                                 epsilon_norm=1/4, a=-3, b=3, dx=.01)
