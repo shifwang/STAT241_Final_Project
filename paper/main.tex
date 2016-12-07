@@ -88,6 +88,7 @@
 \newcommand{\N}{\mathscr{N}}
 \newcommand{\by}{\mathbf{y}}
 \newcommand{\var}{\mathrm{var}}
+\newcommand{\cov}{\mathrm{cov}}
 \DeclareMathOperator*{\argmin}{\arg\!\min}
 
 \newtheorem{conjecture}{Conjecture}
@@ -168,9 +169,9 @@ Given $f(x)$,
 \begin{algorithmic}\caption{Stochastic gradient descent (oracle)}\label{Alg:SGD}
 \STATE {\bf Initialize} $ \bx^0$ arbitrarily;
 \WHILE{burn-in period}
-\STATE draw $a^t$ from Gaussian distribution $\N(\nabla \log f(\bx^k), \Sigma^{t})$.
+\STATE draw $a^k$ from Gaussian distribution $\N(\nabla \log f(\bx^k), \Sigma^{k})$.
 \STATE
-$\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
+$\bx^{k+1} \gets \bx^k + (2\Sigma^k)^{-1} a^k$;
 \STATE $k\gets k+1$;
 \ENDWHILE
 \STATE return $\bx^k$.
@@ -178,13 +179,13 @@ $\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
 \end{algorithm}
 
 
-Consider any $p(\bx)\in \D(\R^p)$, we have the following theorem:
+Consider any $p(\bx)\in \D(\R^p)$, we have the following conjecture:
 
 \begin{conjecture}
-For any $p(\bx)\in \D(\R^p)$, it is the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, 2\epsilon)$.
+For any $p(\bx)\in \D(\R^p)$, it is approximately the stationary distribution of iterates in Algorithm 1 with parameter $(-\log p(\bx), \epsilon, 2\epsilon)$.
 \end{conjecture}
 \begin{proof}
-Let's verify this theorem by checking the detailed balance condition. Denote $g(\by|\bx)$ to be the density function of the transition, because $\by = \bx - \alpha \nabla f(\bx^k) + \epsilon^t$ and $\epsilon^t\sim \N(0, \sigma^2)$, we know
+Let's verify this theorem by checking the detailed balance condition. Denote $g(\by|\bx)$ to be the density function of the transition, because $\by = \bx - \alpha \nabla f(\bx^k) + \epsilon^k$ and $\epsilon^k\sim \N(0, \sigma^2)$, we know
 \begin{equation}
 g(\by|\bx) = (2\pi \sigma^2)^{-p/2} \exp(- \frac{\|\by - \bx + \alpha \nabla h(\bx)\|^2}{2\sigma^2}).
 \end{equation}
@@ -246,17 +247,17 @@ P(\theta|(X_1,\ldots, X_n)) = \frac{\prod_{i=1}^n P(X_i|\theta) P(\theta)}{P(X_1
 \]
 By Conjecture 1, we could use SGD to draw samples using $(-\sum_i \log P(X_i|\theta) + \log P(\theta), \epsilon, 2\epsilon)$.  Note that the core update rule is
 \[
-\theta^{t+1} \gets \theta^{t} + \alpha (n^{-1} \sum_i \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) + \epsilon^t.
+\theta^{k+1} \gets \theta^{k} + \alpha (n^{-1} \sum_i \nabla \log P(X_i|\theta^k) - \log P(\theta^k)) + \epsilon^k.
 \]
-Note that $\alpha (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^t) - \log P(\theta^t)) + \epsilon^t$ can be approximated by
+Note that $\alpha (n^{-1} \sum_{i=1}^n \nabla \log P(X_i|\theta^k) - \log P(\theta^k)) + \epsilon^k$ can be approximated by
 \[
-\sum_{i=1}^K (K^{-1} \nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)),
+\sum_{i=1}^K (K^{-1} \nabla \log P(X_{\eta_i}|\theta^k) - \log P(\theta^k)),
 \]
 where $K$ is a constant smaller than $n$ and $\eta_i$ are IID drawn from $1,\ldots, n$. When $K\ll n$, this is much computational efficient. This relationship is elaborated in the following theorem:
 \begin{theorem}[Central limit theorem]
 Let $K$ be the subsampling size and $\eta_1,\ldots, \eta_K$ be samples drawing from $1,\ldots, n$ with replacement, then
 \[
-K^{-1}\sum_{i=1}^K (\nabla \log P(X_{\eta_i}|\theta^t) - \log P(\theta^t)) \sim \N(n^{-1} \nabla \log p(\theta) , K^{-1}\cov \nabla \log p(\theta)).
+K^{-1}\sum_{i=1}^K (\nabla \log P(X_{\eta_i}|\theta^k) - \log P(\theta^k)) \sim \N(n^{-1} \nabla \log p(\theta) , K^{-1}\cov \nabla \log p(\theta)).
 \]
 \end{theorem}
 
@@ -267,10 +268,10 @@ Given data $X_1,\ldots, X_n$, model $p(X|\theta)$, sample size $K$
 \STATE {\bf Initialize} $ \theta^0$, $t \gets 0$;
 \WHILE{stopping criterion not satisfied}
 \STATE draw $K$ iid samples with replacement from $1,\ldots, n$, denoted $\eta_1,\ldots, \eta_K$.
-\STATE calculate the mean $a^t$ and the covariance matrix $\Sigma^t$ of $(\nabla\log p(X_{\eta_i}|\theta^t))_{i=1}^K$.
+\STATE calculate the mean $a^k$ and the covariance matrix $\Sigma^k$ of $(\nabla\log p(X_{\eta_i}|\theta^k))_{i=1}^K$.
 \STATE
-$\theta^{t+1} \gets \theta^t + 2(\Sigma^t)^{-1}a^t$;
-\STATE $t\gets t+1$;
+$\theta^{k+1} \gets \theta^k + 2(\Sigma^k)^{-1}a^k$;
+\STATE $k\gets k+1$;
 \ENDWHILE
 \STATE return $\theta^k$.
 \end{algorithmic}}
@@ -287,10 +288,10 @@ Consider the empirical/real density for $(\mu, \sigma^2)$ where $p(X_1|\mu, \sig
 % ===================================================================================
 \section{Upper bound on the mixing time} % (fold)
 \label{sec:upper_bound_on_the_mixing_time}
-In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $P^t(\bx^0)$ the density of $\bx^t$ starting from $\bx^0$, $d(t) = \max_{x\in \Omega} \|P^t(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(t) = \max_{x,y\in \Omega} \|P^t(x, \cdot), P^t(y,\cdot)\|_{TV}$. 
+In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $P^k(\bx^0)$ the density of $\bx^k$ starting from $\bx^0$, $d(k) = \max_{x\in \Omega} \|P^k(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(k) = \max_{x,y\in \Omega} \|P^k(x, \cdot), P^k(y,\cdot)\|_{TV}$. 
 Define its mixing time to be 
 \[
-\tau_{\mathrm{mix}} \triangleq \min\{t|\max_{\bx^0}\|P^t(\bx^0) - p\|_{\mathrm{TV}}\leq 1/4\}.
+\tau_{\mathrm{mix}} \triangleq \min\{k|\max_{\bx^0}\|P^k(\bx^0) - p\|_{\mathrm{TV}}\leq 1/4\}.
 \]
 
 
@@ -304,7 +305,7 @@ So the conjecture is that when SGD converges fast, it will also be efficient as 
 
 In order to explore this issue empirically, we designed the following experiment.
 \begin{experiment}
-Calculate $d(t)$, namely the TV distance between empirical pdf (using Gaussian kernel) and expected pdf for the following 5 density functions:
+Calculate $d(k)$, namely the TV distance between empirical pdf (using Gaussian kernel) and expected pdf for the following 5 density functions:
 \begin{enumerate}
     \item $P(x) \propto \exp(- |x|)$
     \item $P(x) \propto \exp(- |x|^2)$
@@ -314,9 +315,38 @@ Calculate $d(t)$, namely the TV distance between empirical pdf (using Gaussian k
 \end{enumerate} 
 \end{experiment}
 \begin{figure}
-\includegraphics[.3\textwidth]{../../figure/sim3/case1_pdf.pdf}
-\includegraphics[.3\textwidth]{../../figure/sim3/case1_l1.pdf}
+\centering
+
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}\\
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_l1.pdf}
+\caption{$d(k)$ for $\exp(- |x|)$ (upper left), $\exp(- |x|^2)$ (upper right), $\exp(- |x|^3)$ (lower left), $\exp(- |x|^4)$ (lower right). It can be seen that $d(k)$ decreases exponentially for all of the functions. And the mixing time decreases as the degree increases.}\label{Fig:sim3_1}
 \end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}\\
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case1_pdf.pdf}
+\caption{Empirical density of $x^k$ for $k = 100$ for $\exp(- |x|)$ (upper left), $\exp(- |x|^2)$ (upper right), $\exp(- |x|^3)$ (lower left), $\exp(- |x|^4)$ (lower right). For $\exp(-|x|)$, it has not converge to the true pdf yet. For $\exp(-|x|^4)$, it has already converged.}\label{Fig:sim3_2}
+\end{figure}
+As shown in Figure \ref{Fig:sim3_1} and Figure \ref{Fig:sim3_2}, the mixing time of $\exp(-|x|)$ is the longest (> 100) and the mixing time of $\exp(-|x|^4)$ is the shortest. This is coherent with their convergence time. For $\exp(-|x|)$, the convergence time is the longest; for $\exp(-|x|^4)$, the convergence time is the longest.
+\begin{figure}
+\centering
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf1.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf2.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf3.pdf}
+\caption{Empirical density of $x^k$ for $k = 100, 1000, 10000$ for $\exp(- (x^2 - 1)(x^2 - 4))$. }\label{Fig:sim3_3}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_l1.pdf}
+\caption{$d(k)$, difference between the empirical pdf and the expected pdf for $\exp(- (x^2 - 1)(x^2 - 4))$. }\label{Fig:sim3_4}
+\end{figure}
+As shown in Figure \ref{Fig:sim3_3} and Figure \ref{Fig:sim3_4}, the mixing time of $\exp(-(x^2 - 1)(x^4= 1))$ is much longer than any single mode distribution. Its convergence time is also the longest.
+
 % section upper_bound_on_the_mixing_time (end)
 
 % ===================================================================================
