@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import random
 import scipy as sp
 import statsmodels as sm
@@ -21,7 +21,7 @@ def simu_all(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-
 
 # $ ipcluster start -n 3
 # $ ipcluster start -n 24
-def simu_all_parallel(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1, maxIter = int(1e5), desiredObj = 100):
+def simu_all_parallel(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1, maxIter = int(1e5), desiredObj = 100, burn_in = 1e3):
     clients = ipyparallel.Client()
     dview = clients.direct_view()
 
@@ -58,6 +58,9 @@ def simu_all_parallel(n_sim, func, grad, initialPoint=1., stepsize=1e-2/2, noise
 
     # remove the empty column
     all_traject = np.delete(all_traject, 0, axis=1)
+    # remove burn in period
+    all_traject = all_traject[int(burn_in):,:]
+
     return all_traject
 
 # %time all_traject = simu_all_parallel(n_sim = 1e2, func = func, grad = grad, initialPoint=1., stepsize=1e-2/2, noiseLevel=1e-1, maxIter=int(1e5), desiredObj=100)
