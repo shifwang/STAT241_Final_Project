@@ -26,9 +26,9 @@ import simulation
 # EG1: f(x) = -x**1
 degree = 1
 def func(x, degree = degree):
-    return -np.power(x, degree)
+    return -abs(np.power(x, degree))
 def grad(x, degree = degree):
-    return -degree * np.power(x, degree - 1)
+    return -degree * np.sign(x)
 def station_func(x):
     return np.exp(func(x))
 modes = [0]

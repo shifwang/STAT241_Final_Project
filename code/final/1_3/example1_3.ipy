@@ -26,7 +26,7 @@ import simulation
 # EG1: f(x) = -x**3
 degree = 3
 def func(x, degree = degree):
-    return -np.power(x, degree)
+    return -abs(np.power(x, degree))
 def grad(x, degree = degree):
     return -degree * np.power(x, degree - 1)
 def station_func(x):
@@ -47,7 +47,7 @@ pickle.dump(obj = all_traject, file = open('./all_traject.pickle', 'wb'), protoc
 # all_traject = pickle.load('all_traject.pickle')
 
 mix_time = mixing.mixing_time(all_traject = all_traject, station_func = station_func,
-                                epsilon_norm=1/4, a=-3, b=3, dx=.01)
+                                epsilon_norm=1e-3, a=-3, b=3, dx=.01)
 
 conv_time_all = convergence.convergence_time_all(all_trajectory = all_traject,
                                                  modes = modes, epsilon_neighbor=1e-2)

@@ -126,7 +126,7 @@ def mixing_time(all_traject, station_func, epsilon_norm = 1/4, a=-3, b=3, dx=.01
     # plt.savefig('yo.pdf', format='pdf')
 
     pickle.dump(obj = l1_all, file = open('./l1_all.pickle', 'wb'), protocol=pickle.HIGHEST_PROTOCOL)
-    # l1_all = pickle.load('l1_all.pickle')
+    # l1_all = pickle.load(open('l1_all.pickle', 'rb'))
 
     is_mix = l1_all <= epsilon_norm
 
