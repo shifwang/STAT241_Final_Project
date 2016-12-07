@@ -302,6 +302,21 @@ Define its mixing time to be
 
 So the conjecture is that when SGD converges fast, it will also be efficient as a sampling method.
 
+In order to explore this issue empirically, we designed the following experiment.
+\begin{experiment}
+Calculate $d(t)$, namely the TV distance between empirical pdf (using Gaussian kernel) and expected pdf for the following 5 density functions:
+\begin{enumerate}
+    \item $P(x) \propto \exp(- |x|)$
+    \item $P(x) \propto \exp(- |x|^2)$
+    \item $P(x) \propto \exp(- |x|^3)$
+    \item $P(x) \propto \exp(- |x|^4)$
+    \item $P(x) \propto \exp(- (x^ - 4)(x^2 - 1))$
+\end{enumerate} 
+\end{experiment}
+\begin{figure}
+\includegraphics[.3\textwidth]{../../figure/sim3/case1_pdf.pdf}
+\includegraphics[.3\textwidth]{../../figure/sim3/case1_l1.pdf}
+\end{figure}
 % section upper_bound_on_the_mixing_time (end)
 
 % ===================================================================================
