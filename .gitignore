@@ -1,4 +1,5 @@
 **/*.pickle
+*.pickle
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
