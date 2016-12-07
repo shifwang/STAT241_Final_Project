@@ -285,10 +285,11 @@ Consider the empirical/real density for $(\mu, \sigma^2)$ where $p(X_1|\mu, \sig
 \includegraphics[width=0.5\linewidth]{../figure/simulation2_real.png}
 \caption{The empirical/real density for $(\mu, \sigma^2)$ where $p(X_1|\mu, \sigma^2)\sim \N(\mu, \sigma^2)$, data $X_1,\ldots, X_{1000}$ is drawn from $\N(0, 1)$, $K = 1000$, sample size is $1000$. The empirical density is close to the real density. Note that variance $\sigma^2$ has higher variance than the expectation $\mu$}
 \end{figure}
+\newpage
 % ===================================================================================
 \section{Upper bound on the mixing time} % (fold)
 \label{sec:upper_bound_on_the_mixing_time}
-In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $P^k(\bx^0)$ the density of $\bx^k$ starting from $\bx^0$, $d(k) = \max_{x\in \Omega} \|P^k(x, \cdot), \pi(\cdot)\|_{TV}$, and $\bar{d}(k) = \max_{x,y\in \Omega} \|P^k(x, \cdot), P^k(y,\cdot)\|_{TV}$.
+In order to analyze the efficiency of SGD, we need to consider its mixing time. If SGD's mixing time is small, we know it will be a very efficient sampling method. How to estimate its mixing time? In the past literature, the upperbound of a mixing time can be obtained by a coupling technique. Define $\|\cdot\|_{TV}$ to be the total variation norm of $\cdot$, $P^k(\bx^0)$ the density of $\bx^k$ starting from $\bx^0$, $d(k) = \max_{x\in \Omega} \|P^k(x, \cdot) - \pi(\cdot)\|_{TV}$, and $\bar{d}(k) = \max_{x,y\in \Omega} \|P^k(x, \cdot) - P^k(y,\cdot)\|_{TV}$.
 Define its mixing time to be
 \[
 \tau_{\mathrm{mix}} \triangleq \min\{k|\max_{\bx^0}\|P^k(\bx^0) - p\|_{\mathrm{TV}}\leq 1/4\}.
@@ -311,7 +312,7 @@ Calculate $d(k)$, namely the TV distance between empirical pdf (using Gaussian k
     \item $P(x) \propto \exp(- |x|^2)$
     \item $P(x) \propto \exp(- |x|^3)$
     \item $P(x) \propto \exp(- |x|^4)$
-    \item $P(x) \propto \exp(- (x^ - 4)(x^2 - 1))$
+    \item $P(x) \propto \exp(- (x - 4)(x^2 - 1))$
 \end{enumerate}
 \end{experiment}
 \begin{figure}
@@ -353,18 +354,18 @@ Density & Median convergence time \\
 
 \begin{figure}
 \centering
-% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf1.pdf}
-% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf2.pdf}
-% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf3.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf1.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf2.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_pdf3.pdf}
 \caption{Empirical density of $x^k$ for $k = 100, 1000, 10000$ for $\exp(- (x^2 - 1)(x^2 - 4))$. }\label{Fig:sim3_3}
 \end{figure}
 
 \begin{figure}
 \centering
-% \includegraphics[width=.3\textwidth]{../figure/sim3/case5_l1.pdf}
+\includegraphics[width=.3\textwidth]{../figure/sim3/case5_l1.pdf}
 \caption{$d(k)$, difference between the empirical pdf and the expected pdf for $\exp(- (x^2 - 1)(x^2 - 4))$. }\label{Fig:sim3_4}
 \end{figure}
-As shown in Figure \ref{Fig:sim3_3} and Figure \ref{Fig:sim3_4}, the mixing time of $\exp(-(x^2 - 1)(x^4 - 1))$ is much longer than any single mode distribution. Its convergence time is also the longest.
+As shown in Figure \ref{Fig:sim3_3} and Figure \ref{Fig:sim3_4}, the mixing time of $\exp(-(x^2 - 1)(x^2 - 4))$ is much longer than any single mode distribution. Its convergence time is also the longest.
 
 % section upper_bound_on_the_mixing_time (end)
 \newpage
@@ -373,7 +374,7 @@ As shown in Figure \ref{Fig:sim3_3} and Figure \ref{Fig:sim3_4}, the mixing time
 \label{sec:discussion}
 
 
-In this paper, we have shown that stochastic gradient descent approaches extend in an elegant way to a sampler for posterior distributions when computing the likelihood from the full data is intensive. We are able to establish the stationary distribution of the procedure and gave several examples showing the accuracy and uses of our result. By taking a Bayesian route, we are able to show that the SGD algorithm is a sampler of a posterior under a non-informative prior. This enables us to establish connection between SGD and maximum \emph{a posteriori} (MAP) procedure, which is an analogy to gradient descent solving a maximum likelihood estimator in the frequentist paradigm. A natural extension of this work, which we hope to be able to accomplish, is to derive finite sample rates of convergence for the mixing time, which would allow a more rigor understanding of the SGD family as a whole. Extensive simulation of the methodology is also needed to fully understand this novel SGD sampler.
+In this paper, we have shown that stochastic gradient descent approaches extend in an elegant way to a sampler for posterior distributions when computing the likelihood from the full data is intensive. We are able to establish the stationary distribution of the procedure and gave several examples showing the accuracy and uses of our result. By taking a Bayesian route, we are able to show that the SGD algorithm is a sampler of a posterior under a non-informative prior. This enables us to establish connection between SGD and maximum \emph{a posteriori} (MAP) procedure, which is an analogy to gradient descent solving a maximum likelihood estimator in the frequentist paradigm.
 
 A detailed contribution is summarized as the following:
 \begin{enumerate}
@@ -381,6 +382,7 @@ A detailed contribution is summarized as the following:
     \item When sampling from a posterior distribution, the SGD update step can be estimated using a randomly chosen subset of the whole dataset. A toy example of estimating the expectation and variance of a Gaussian distribution demonstrate its performance.
     \item We also carried out a comparison between SGD's mixing time and its convergence time. Empirical simulations show that when SGD converges fast, it will also have a small mixing time.
 \end{enumerate}
+
 Future work includes:
 \begin{enumerate}
     \item we will dig into the literature on Langevin MCMC and learn more about this issue.
