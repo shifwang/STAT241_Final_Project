@@ -24,8 +24,8 @@
 
 \documentclass[final]{beamer}
 
-% \usepackage[scale=1.24]{beamerposter} % Use the beamerposter package for laying out the poster
-\usepackage[scale=0.8]{beamerposter}
+\usepackage[scale=1.24]{beamerposter} % Use the beamerposter package for laying out the poster
+% \usepackage[scale=0.8]{beamerposter}
 
 \usetheme{confposter} % Use the confposter theme supplied with this template
 
@@ -47,10 +47,10 @@
 \newlength{\onecolwid}
 \newlength{\twocolwid}
 \newlength{\threecolwid}
-% \setlength{\paperwidth}{48in} % A0 width: 46.8in
-% \setlength{\paperheight}{36in} % A0 height: 33.1in
-\setlength{\paperwidth}{36in} % A0 width: 46.8in
-\setlength{\paperheight}{24in} % A0 height: 33.1in
+\setlength{\paperwidth}{48in} % A0 width: 46.8in
+\setlength{\paperheight}{36in} % A0 height: 33.1in
+% \setlength{\paperwidth}{36in} % A0 width: 46.8in
+% \setlength{\paperheight}{24in} % A0 height: 33.1in
 \setlength{\sepwid}{0.024\paperwidth} % Separation width (white space) between columns
 % \setlength{\onecolwid}{0.22\paperwidth} % Width of one column
 % \setlength{\twocolwid}{0.464\paperwidth} % Width of two columns
@@ -86,15 +86,15 @@
 \newtheorem{experiment}{Experiment}
 
 % inline theorem
-\makeatletter
-\setbeamertemplate{theorem begin}
-  {\usebeamercolor[fg]{thcolor}% for the heading
-  {\bfseries\inserttheoremname~}%
-  \ifx\inserttheoremaddition\@empty\else(\inserttheoremaddition)\ \fi%
-  \hspace{.01em}\normalfont\usebeamercolor[fg]{thcolor}% for the body
-  }
-\setbeamertemplate{theorem end}{}
-\makeatother
+% \makeatletter
+% \setbeamertemplate{theorem begin}
+%   {\usebeamercolor[fg]{thcolor}% for the heading
+%   {\bfseries\inserttheoremname~}%
+%   \ifx\inserttheoremaddition\@empty\else(\inserttheoremaddition)\ \fi%
+%   \hspace{.01em}\normalfont\usebeamercolor[fg]{thcolor}% for the body
+%   }
+% \setbeamertemplate{theorem end}{}
+% \makeatother
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -150,7 +150,7 @@
 
 \begin{itemize}
 \item Sampling from posterior distribution is crucial in various statistical techniques
-\item Posterior can be hard to sample  (hurdle a lot of applications)
+\item Posterior can be hard to sample (hurdle a lot of applications)
 \item SGD can be viewed as a Markov chain sampler, very efficient for posterior
 \item Property as a Markov chain largely overlooked
 \item Mixing time's relationship with its convergence rate?
@@ -165,10 +165,10 @@
 %----------------------------------------------------------------------------------------
 
 \begin{block}{SGD Sampling Algorithm}
-Suppose we would like to sample from a distribution $p(\bx)\in \D(\R^p) \propto f(\bx)$. 
+Suppose we would like to sample from a distribution $p(\bx)\in \D(\R^p) \propto f(\bx)$.
 \begin{algorithm}[H]
 {\small
-Given $f(x)$, 
+Given $f(x)$,
 \begin{algorithmic}\caption{Stochastic gradient descent (oracle)}\label{Alg:SGD}
 \STATE {\bf Initialize} $ \bx^0$ arbitrarily;
 \WHILE{burn-in period}
@@ -208,15 +208,15 @@ $\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
 
 \begin{figure}
     \centering
-    \includegraphics[width=.3\onecolwid]{../figure/case1_step_0.005_iter_1e3.png}
-    \includegraphics[width=.3\onecolwid]{../figure/case1_step_0.005_iter_1e4.png}
-    \includegraphics[width=.3\onecolwid]{../figure/case1_step_0.005_iter_1e5.png}\\
-    \includegraphics[width=.3\onecolwid]{../figure/case2_step_0.005_iter_1e3.png}
-    \includegraphics[width=.3\onecolwid]{../figure/case2_step_0.005_iter_1e4.png}
-    \includegraphics[width=.3\onecolwid]{../figure/case2_step_0.005_iter_1e5.png}\\
-    \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e3.png}
-    \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e4.png}
-    \includegraphics[width=.3\onecolwid]{../figure/case3_step_0.005_iter_1e5.png}
+    \includegraphics[width=.33\onecolwid]{../figure/case1_step_0.005_iter_1e3.png}
+    \includegraphics[width=.33\onecolwid]{../figure/case1_step_0.005_iter_1e4.png}
+    \includegraphics[width=.33\onecolwid]{../figure/case1_step_0.005_iter_1e5.png}\\
+    \includegraphics[width=.33\onecolwid]{../figure/case2_step_0.005_iter_1e3.png}
+    \includegraphics[width=.33\onecolwid]{../figure/case2_step_0.005_iter_1e4.png}
+    \includegraphics[width=.33\onecolwid]{../figure/case2_step_0.005_iter_1e5.png}\\
+    \includegraphics[width=.33\onecolwid]{../figure/case3_step_0.005_iter_1e3.png}
+    \includegraphics[width=.33\onecolwid]{../figure/case3_step_0.005_iter_1e4.png}
+    \includegraphics[width=.33\onecolwid]{../figure/case3_step_0.005_iter_1e5.png}
     \caption{Empirical stationary distribution using SGD. Different columns correspond to different samples sizes ($1e3$, $1e4$, and $1e5$). Different rows correspond to different distributions ($f_1(x) = \exp(-x^4)$, $f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$, $f_3(x) = \exp(-|x|)$.}
     \label{Fig:exp1}
 \end{figure}
@@ -225,7 +225,7 @@ $\bx^{k+1} \gets \bx^k + (2\Sigma^t)^{-1} a^t$;
 %	MATERIALS
 %----------------------------------------------------------------------------------------
 \begin{block}{Stationary Distribution}
-Will Algorithm 1 converge to the desired stationary distribution? Denote $p(\bx^{t+1}|\bx^t)$ to be the density function to obtain $\bx^{t+1}$ from $\bx^{t}$. 
+Will Algorithm 1 converge to the desired stationary distribution? Denote $p(\bx^{t+1}|\bx^t)$ to be the density function to obtain $\bx^{t+1}$ from $\bx^{t}$.
 The detailed balance condition holds approximately when $\|(\Sigma^t)^{-1}\|$ is small, i.e.,
 \[
 f(\bx^{t})p(\bx^{t+1}|\bx^t) = f(\bx^{t+1})p(\bx^{t}|\bx^{t+1}) ( 1 + O(\|(\Sigma^t)^{-1}\|^2)).
@@ -240,10 +240,11 @@ That implies $f(\cdot)$ is indeed the stationary distribution of Algorithm 1. Si
 
 \begin{block}{SGD As Fast Posterior Sampler}
 When $p(\theta)$ is the posterior distribution of some parameters given a set of data $X_1,\ldots, X_n$, i.e.,
-\[
+$$
 p(\theta) = \prod_{i=1}^n P(X_i|\theta) P(\theta),
-\]
+$$
 The noisy gradient step in Algorithm 1 can be estimated by subsampling:
+
 (Central limit theorem)
 Let $K$ be the subsampling size and $\eta_1,\ldots, \eta_K$ be samples drawing from $1,\ldots, n$ with replacement, then
 \[
@@ -277,11 +278,11 @@ See Figure 2 for the simulation result.
 %----------------------------------------------------------------------------------------
 
 \begin{block}{Upper Bound On Mixing Time}
-How effective Algorithm 1 is as a sampling method? Denote $\|\cdot\|_{\mathrm{TV}}$ the TV norm and $P^t(\bx^0)$ the density of $\bx^t$ starting from $\bx^0$. Define its mixing time to be 
+How effective is Algorithm 1 as a sampling method? Denote $\|\cdot\|_{\mathrm{TV}}$ the TV norm and $P^t(\bx^0)$ the density of $\bx^t$ starting from $\bx^0$. Define its mixing time to be
 \[
 \tau_{\mathrm{mix}} \triangleq \min\{t|\max_{\bx^0}\|P^t(\bx^0) - p\|_{\mathrm{TV}}\leq 1/4\}.
 \]
-Suppose $\tau_{\bx^0}$ is the stopping time when the algorithm converges to global minimum starting from $\bx^0$, we might be able to have a upper bound for $\tau_{\mathrm{mix}}$.
+Suppose $\tau_{\bx^0}$ is the stopping time when the algorithm converges to the global minimum starting from $\bx^0$, we might be able to have an upper bound for $\tau_{\mathrm{mix}}$.
 \[
 \tau_{\mathrm{mix}} \leq 4 \max_{\bx^0}\E \tau_{\bx^0}.
 \]
@@ -297,7 +298,7 @@ So when SGD converges fast, it will also be efficient as a sampling method.
 \begin{itemize}
 \item Proposed fast SGD sampler for posterior distributions when computing the likelihood using full data is intensive
 \item Proved accurate stationary distribution based on oracle results
-\item Established connection between SGD and maximize \emph{a posteriori} (MAP)
+\item Established connection between SGD and maximum \emph{a posteriori}
 \item Derived upper bound on mixing time
 \item Future work: Finite sample rates of convergence for the mixing time
 \end{itemize}

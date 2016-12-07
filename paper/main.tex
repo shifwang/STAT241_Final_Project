@@ -287,20 +287,8 @@ In order to analyze the efficiency of SGD, we need to consider its mixing time. 
 \label{sec:discussion}
 
 
+In this paper, we have shown that stochastic gradient descent approaches extend in an elegant way to a sampler for posterior distributions when computing the likelihood from the full data is intensive. We are able to establish the stationary distribution of the procedure and gave several examples showing the accuracy and uses of our result. By taking a Bayesian route, we are able to show that the SGD algorithm is a sampler of a posterior under a non-informative prior. This enables us to establish connection between SGD and maximum \emph{a posteriori} (MAP) procedure, which is an analogy to gradient descent solving a maximum likelihood estimator in the frequentist paradigm. A natural extension of this work, which we hope to be able to accomplish, is to derive finite sample rates of convergence for the mixing time, which would allow a more rigor understanding of the SGD family as a whole. Extensive simulation of the methodology is also needed to fully understand this novel SGD sampler.
 
-$f_1(x) = \exp(-x^4)$
-
-$f_2(x) = \exp(-(x^2 - 4)(x^2 - 1))$
-
-$f_3(x) = \exp(-|x|)$
-
-
-
-
-
-- what we have achieved
-
-- Future work
 
 % section discussion (end)
 \newpage
